@@ -22,7 +22,7 @@ exports.login = (req, res) => {
           employee:emp
         })
       } else {
-        return res.status(200).json({
+        return res.status(400).json({
           message: 'Invalid password'
         })
       }
