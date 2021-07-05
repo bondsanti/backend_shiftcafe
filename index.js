@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const mongoClient = require('mongodb').MongoClient
 const cors = require("cors")
 const path = require("path")
+const cookieParser = require('cookie-parser')
 const app = express()
 
 // mongoose.connect(
@@ -49,7 +50,8 @@ const Connect = async () => {
           pass: "ZIPhir37741", 
           useCreateIndex: true,
           useNewUrlParser: true,
-          useUnifiedTopology: true
+          useUnifiedTopology: true,
+          useFindAndModify: false
       } );
 
       console.log( "Database is connected!" );
@@ -65,18 +67,23 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
 app.use("/public", express.static(path.join(__dirname, "uploads")))
+app.use(cookieParser())
 
 const roleRoute = require("./routes/addRole.route")
 const employeeRoute = require("./routes/employee.route")
 const authenRoute = require("./routes/authen.route")
+const unitRoute = require("./routes/unit.route")
+const categoryRoute = require("./routes/category.route")
 
 app.get('/', (req, res) => {
-  res.send('Hello word')
+  res.send('BACKEND SHIFT CAFE')
 })
 
 app.use("/api",roleRoute)
 app.use("/api",employeeRoute)
 app.use("/api",authenRoute)
+app.use("/api",unitRoute)
+app.use("/api",categoryRoute)
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running on PORT ${process.env.PORT}`)

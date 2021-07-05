@@ -5,7 +5,7 @@ exports.login = (req, res) => {
   EmployeeModel.findOne({ username: req.body.username }).exec((err, emp) => {
     if (err) return res.status(400).json({ message: err })
     if (emp) {
-      if (emp.authenticate(req.body.password) ) {
+      if (emp.authenticate(req.body.password)) {
         const token = jwt.sign(
           { _id: emp._id, role: emp.ref_id_role },
           process.env.JWT_SECRET,
@@ -14,12 +14,10 @@ exports.login = (req, res) => {
           }
         )
 
-        
-        req.emp = token
         res.cookie('token', token, { expiresIn: '1d' })
         res.status(200).json({
           token,
-          employee:emp
+          employee: emp
         })
       } else {
         return res.status(201).json({

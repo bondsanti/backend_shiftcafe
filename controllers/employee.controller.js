@@ -56,7 +56,7 @@ exports.addEmployee = async (req, res) => {
 
 exports.updateEmployee = async (req, res) => {
   const {
-    id,
+    _id,
     username,
     password,
     ref_id_role,
@@ -86,7 +86,7 @@ exports.updateEmployee = async (req, res) => {
     address: address
   }
 
-  EmployeeModel.findByIdAndUpdate({ _id: id }, newEmpObj)
+  EmployeeModel.findByIdAndUpdate({ _id: _id }, newEmpObj)
     .then(emp => {
       addLog('60dff0bf708d771ce8b1c7c1', `update employee => ${emp.fname} ${emp.lname}`)
 
@@ -105,21 +105,29 @@ exports.updateEmployee = async (req, res) => {
 exports.allEmployee = (req, res) => {
   EmployeeModel.find().then(data => {
     res.status(200).json(data)
-  })
+  }) 
 }
 
 exports.deleteEmployee = (req, res) => {
-  const id = req.body.id
+  //console.log(req.params.id)
+  const id = req.params.id
 
-  EmployeeModel.findOneAndDelete({ _id: id }).then(emp => {
+ if(id){
+    EmployeeModel.findOneAndDelete({ _id: id }).then(emp => {
     addLog('60dff0bf708d771ce8b1c7c1', `delete employee => ${emp.fname} ${emp.lname}`)
       res.status(200).json({
           message:"delete employee complete"
       })
   }).catch(e=>{
-    res.status(400).json({
+    res.status(201).json({
         message: 'delete employee uncomplete',
         error: e
       })
   })
+}else{
+  res.status(201).json({
+    message: 'id is undefinded'
+    
+  })
+}
 }
