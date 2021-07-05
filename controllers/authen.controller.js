@@ -16,18 +16,18 @@ exports.login = (req, res) => {
 
         
         req.emp = token
-        res.cookie('token', token, { expiresIn: '24h' })
+        res.cookie('token', token, { expiresIn: '1d' })
         res.status(200).json({
           token,
           employee:emp
         })
       } else {
-        return res.status(400).json({
+        return res.status(201).json({
           message: 'Invalid password'
         })
       }
     } else {
-      return res.status(400).json({ message: 'username not found' })
+      return res.status(201).json({ message: 'username not found' })
     }
   })
 }
