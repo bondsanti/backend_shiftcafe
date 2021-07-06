@@ -10,11 +10,11 @@ exports.login = (req, res) => {
           { _id: emp._id, role: emp.ref_id_role },
           process.env.JWT_SECRET,
           {
-            expiresIn: '24h'
+            expiresIn: '15d'
           }
         )
 
-        res.cookie('token', token, { expiresIn: '1d' })
+        res.cookie('token', token, { expiresIn: '15d' })
         res.status(200).json({
           token,
           employee: emp
@@ -27,5 +27,13 @@ exports.login = (req, res) => {
     } else {
       return res.status(201).json({ message: 'username not found' })
     }
+  })
+}
+
+exports.logout = (req, res) => {
+  //jwt.destroyed(process.env.JWT_SECRET)
+  res.clearCookie('token')
+  res.status(200).json({
+    message: 'Logout successfully'
   })
 }

@@ -58,6 +58,7 @@ const employeeRoute = require('./routes/employee.route')
 const authenRoute = require('./routes/authen.route')
 const unitRoute = require('./routes/unit.route')
 const categoryRoute = require('./routes/category.route')
+const levelMemberRoute = require('./routes/levelMember.route')
 
 app.get('/', (req, res) => {
   res.send('BACKEND SHIFT CAFE')
@@ -68,6 +69,7 @@ app.use('/api', employeeRoute)
 app.use('/api', authenRoute)
 app.use('/api', unitRoute)
 app.use('/api', categoryRoute)
+app.use('/api', levelMemberRoute)
 
 app.listen(process.env.PORT, process.env.IP_ADDRESS, () => {
   console.log(

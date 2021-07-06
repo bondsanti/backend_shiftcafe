@@ -20,7 +20,7 @@ exports.addCategory = (req,res)=>{
 }
 
 exports.updateCategory = (req,res)=>{
-    CategoryModel.findByIdAndUpdate({_id:req.body.id},{cate_name:req.body.cate_name}).then((cate)=>{
+    CategoryModel.findByIdAndUpdate({_id:req.params.id},{cate_name:req.body.cate_name}).then((cate)=>{
         addLog('60dff0bf708d771ce8b1c7c1', `update category => ${cate.cate_name}`)
           res.status(CODE_COMPLETE).json({
               message:"update category complete"
@@ -34,7 +34,7 @@ exports.updateCategory = (req,res)=>{
 }
 
 exports.deleteCategory = (req,res)=>{
-    CategoryModel.findByIdAndDelete({_id:req.body.id}).then((cate)=>{
+    CategoryModel.findByIdAndDelete({_id:req.params.id}).then((cate)=>{
         addLog('60dff0bf708d771ce8b1c7c1', `delete category => ${cate.cate_name}`)
           res.status(CODE_COMPLETE).json({
               message:"delete category complete"

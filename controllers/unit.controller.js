@@ -3,6 +3,7 @@ const UnitModel = require('./../models/unit.model')
 const { CODE_COMPLETE, CODE_WARNING } = require('../instant')
 
 exports.addUnit = (req,res)=>{
+  //console.log(req.user._id)
     const { u_name } = req.body
     const newUnit = new UnitModel({
       u_name
@@ -17,7 +18,7 @@ exports.addUnit = (req,res)=>{
       }
   
       if (unit) {
-        addLog('60dff0bf708d771ce8b1c7c1', `add unit ${unit.u_name}`)
+        addLog(req.user._id, `add unit ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
           massage: 'add unit complete'
         })
@@ -26,10 +27,10 @@ exports.addUnit = (req,res)=>{
 }
 
 exports.updateUnit = (req,res)=>{
-    const {id,u_name} = req.body
+    const {u_name} = req.body
 
-    UnitModel.findByIdAndUpdate({_id:id},{u_name:u_name}).then((unit)=>{
-        addLog('60dff0bf708d771ce8b1c7c1', `update unit => ${unit.u_name}`)
+    UnitModel.findByIdAndUpdate({_id:req.params.id},{u_name:u_name}).then((unit)=>{
+        addLog(req.user._id, `update unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
             message:"update unit complete"
         })
@@ -44,8 +45,8 @@ exports.updateUnit = (req,res)=>{
 exports.deleteUnit = async(req,res)=>{
     
     try{
-       const unit = await UnitModel.findOneAndDelete({_id:req.body.id})
-        addLog('60dff0bf708d771ce8b1c7c1', `delete unit => ${unit.u_name}`)
+       const unit = await UnitModel.findOneAndDelete({_id:req.params.id})
+        addLog(req.user._id, `delete unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
             message:"delete unit complete"
         })
