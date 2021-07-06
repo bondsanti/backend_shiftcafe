@@ -3,7 +3,7 @@ const { addRole, updateRole, deleteRole } = require('../controllers/addRole.cont
 const router = express.Router()
 
 router.post("/role",addRole)
-router.put("/role",updateRole)
-router.delete("/role",deleteRole)
+router.put("/role/:id",updateRole)
+router.delete("/role/:id",deleteRole)
 
 module.exports = router

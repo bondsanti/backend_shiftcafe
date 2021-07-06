@@ -3,7 +3,7 @@ const { addEmployee, updateEmployee, allEmployee, deleteEmployee } = require('..
 const router = express.Router()
 
 router.post("/employee",addEmployee)
-router.put("/employee",updateEmployee)
+router.put("/employee/:id",updateEmployee)
 router.get("/employee",allEmployee)
 router.delete("/employee/:id",deleteEmployee)
 

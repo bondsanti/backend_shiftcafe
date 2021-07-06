@@ -11,11 +11,11 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  ref_id_role: {
+  ref_id_role: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role',
     required: true
-  },
+  }],
   idcard:{
       type:String,
       required:true
