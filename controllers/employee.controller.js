@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const { addLog } = require('./addLog.controller')
 const EmployeeModel = require('./../models/employee.model')
-const { CODE_COMPLETE, CODE_WARNING ,CODE_ERROR} = require('../instant')
+const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require('../instant')
 
 exports.addEmployee = async (req, res) => {
   const {
@@ -57,7 +57,6 @@ exports.addEmployee = async (req, res) => {
 
 exports.updateEmployee = async (req, res) => {
   const {
-    
     username,
     password,
     ref_id_role,
@@ -89,7 +88,10 @@ exports.updateEmployee = async (req, res) => {
 
   EmployeeModel.findByIdAndUpdate({ _id: req.params.id }, newEmpObj)
     .then(emp => {
-      addLog('60dff0bf708d771ce8b1c7c1', `update employee => ${emp.fname} ${emp.lname}`)
+      addLog(
+        '60dff0bf708d771ce8b1c7c1',
+        `update employee => ${emp.fname} ${emp.lname}`
+      )
 
       res.status(CODE_COMPLETE).json({
         message: 'update employee complete'
@@ -104,33 +106,37 @@ exports.updateEmployee = async (req, res) => {
 }
 
 exports.allEmployee = (req, res) => {
-  
-   EmployeeModel.find().populate('ref_id_role').then(Emp => {
-    res.status(CODE_COMPLETE).json(Emp); 
-  });
-
+  EmployeeModel.find()
+    .populate('ref_id_role')
+    .then(Emp => {
+      res.status(CODE_COMPLETE).json(Emp)
+    })
 }
 
 exports.deleteEmployee = (req, res) => {
   //console.log(req.params.id)
   const id = req.params.id
 
- if(id){
-    EmployeeModel.findOneAndDelete({ _id: id }).then(emp => {
-    addLog('60dff0bf708d771ce8b1c7c1', `delete employee => ${emp.fname} ${emp.lname}`)
-      res.status(CODE_COMPLETE).json({
-          message:"delete employee complete"
+  if (id) {
+    EmployeeModel.findOneAndDelete({ _id: id })
+      .then(emp => {
+        addLog(
+          '60dff0bf708d771ce8b1c7c1',
+          `delete employee => ${emp.fname} ${emp.lname}`
+        )
+        res.status(CODE_COMPLETE).json({
+          message: 'delete employee complete'
+        })
       })
-  }).catch(e=>{
+      .catch(e => {
+        res.status(CODE_WARNING).json({
+          message: 'delete employee uncomplete',
+          error: e
+        })
+      })
+  } else {
     res.status(CODE_WARNING).json({
-        message: 'delete employee uncomplete',
-        error: e
-      })
-  })
-}else{
-  res.status(CODE_WARNING).json({
-    message: 'id is undefinded'
-    
-  })
-}
+      message: 'id is undefinded'
+    })
+  }
 }
