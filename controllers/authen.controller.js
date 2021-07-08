@@ -31,7 +31,6 @@ exports.login = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-  //jwt.destroyed(process.env.JWT_SECRET)
   res.clearCookie('token')
   res.status(200).json({
     message: 'Logout successfully'

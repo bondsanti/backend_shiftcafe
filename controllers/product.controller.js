@@ -3,7 +3,7 @@ const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require('../instant')
 const productModel = require('./../models/product.model')
 const formidable = require('formidable')
 const fs = require('fs-extra')
-const path = require('path')
+//const path = require('path')
 
 const uploadImage = async (files, product) => {
   if (files.img != null) {

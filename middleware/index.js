@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
-const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require('../instant')
+const { CODE_WARNING } = require('../instant')
+const RoleModel = require('./../models/role.model')
 
 exports.requireLogin = (req, res, next) => {
   if (req.headers.authorization) {
@@ -9,9 +10,20 @@ exports.requireLogin = (req, res, next) => {
       req.user = user
       next()
     } catch (e) {
-      return res.status(CODE_ERROR).json({ message: e })
+      return res.status(CODE_WARNING).json({ message: e })
     }
   } else {
-    return res.status(CODE_ERROR).json({ message: 'Authorization is required' })
+    return res.status(CODE_WARNING).json({ message: 'Authorization is required' })
+  }
+}
+
+exports.requireAdmin = async(req,res,next)=>{
+  const role = await RoleModel.findById({_id:req.user.role})
+  if(role.position === 'admin'){
+    next()
+  }else{
+    return res.status(CODE_WARNING).json({
+      message:'Access only admin'
+    })
   }
 }

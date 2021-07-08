@@ -7,23 +7,6 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const app = express()
 
-// mongoose.connect(
-//   process.env.DB_URL_DEVELOPMENT,
-//   {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false
-//   },
-//   (err,db) => {
-//     if(err){
-//       console.log(err)
-//       db.close()
-//     }
-//     console.log("connected database")
-//   }
-// )
-
 const Connect = async () => {
   let url = process.env.DB_URL_PRODUCTION
 
@@ -63,6 +46,12 @@ const productRoute = require('./routes/product.route')
 const customerRoute = require('./routes/customer.route')
 const pointManageRoute = require('./routes/pointManage.route')
 const couponRoute = require('./routes/coupon.route')
+const withdrawRoute = require('./routes/withdraw.route')
+const stockRoute = require('./routes/stock.route')
+const orderRoute = require('./routes/order.route')
+const paymentRoute = require('./routes/payment.route')
+const pointPaymentRoute = require('./routes/pointPayment.route')
+const bankRoute = require('./routes/bank.route')
 
 app.get('/', (req, res) => {
   res.send('BACKEND SHIFT CAFE')
@@ -78,6 +67,12 @@ app.use('/api', productRoute)
 app.use('/api', customerRoute)
 app.use('/api', pointManageRoute)
 app.use('/api', couponRoute)
+app.use('/api', withdrawRoute)
+app.use('/api', stockRoute)
+app.use('/api', orderRoute)
+app.use('/api', paymentRoute)
+app.use('/api', pointPaymentRoute)
+app.use('/api',bankRoute)
 
 app.listen(process.env.PORT, process.env.IP_ADDRESS, () => {
   console.log(
