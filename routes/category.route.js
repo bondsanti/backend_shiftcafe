@@ -1,9 +1,11 @@
 const express = require('express')
-const { addCategory, updateCategory, deleteCategory } = require('../controllers/category.controller')
+const { addCategory, updateCategory, deleteCategory, allCategory } = require('../controllers/category.controller')
+const { requireLogin } = require('../middleware')
 const router = express.Router()
 
-router.post("/category",addCategory)
-router.put("/category/:id",updateCategory)
-router.delete("/category/:id",deleteCategory)
+router.post("/category",requireLogin,addCategory)
+router.put("/category/:id",requireLogin,updateCategory)
+router.delete("/category/:id",requireLogin,deleteCategory)
+router.get("/category",requireLogin,allCategory)
 
 module.exports = router

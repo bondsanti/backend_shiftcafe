@@ -38,9 +38,9 @@ exports.addEmployee = async (req, res) => {
 
   newEmployee
     .save()
-    .then(emp => {
-      addLog(
-        '60dff0bf708d771ce8b1c7c1',
+    .then(async emp => {
+     await addLog(
+        req.user._id,
         `add new employee ${emp.fname} ${emp.lname}`
       )
       res.status(CODE_COMPLETE).json({
@@ -87,9 +87,9 @@ exports.updateEmployee = async (req, res) => {
   }
 
   EmployeeModel.findByIdAndUpdate({ _id: req.params.id }, newEmpObj)
-    .then(emp => {
-      addLog(
-        '60dff0bf708d771ce8b1c7c1',
+    .then(async emp => {
+     await addLog(
+        req.user._id,
         `update employee => ${emp.fname} ${emp.lname}`
       )
 
@@ -119,9 +119,9 @@ exports.deleteEmployee = (req, res) => {
 
   if (id) {
     EmployeeModel.findOneAndDelete({ _id: id })
-      .then(emp => {
-        addLog(
-          '60dff0bf708d771ce8b1c7c1',
+      .then(async emp => {
+       await addLog(
+          req.user._id,
           `delete employee => ${emp.fname} ${emp.lname}`
         )
         res.status(CODE_COMPLETE).json({

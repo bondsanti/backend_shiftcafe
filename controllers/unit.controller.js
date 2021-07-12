@@ -9,7 +9,7 @@ exports.addUnit = (req,res)=>{
       u_name
     })
   
-    newUnit.save((err, unit) => {
+    newUnit.save(async(err, unit) => {
       if (err) {
         res.status(CODE_WARNING).json({
           message: 'Somthing went wrong',
@@ -18,7 +18,7 @@ exports.addUnit = (req,res)=>{
       }
   
       if (unit) {
-        addLog(req.user._id, `add unit ${unit.u_name}`)
+       await addLog(req.user._id, `add unit ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
           massage: 'add unit complete'
         })
@@ -29,8 +29,8 @@ exports.addUnit = (req,res)=>{
 exports.updateUnit = (req,res)=>{
     const {u_name} = req.body
 
-    UnitModel.findByIdAndUpdate({_id:req.params.id},{u_name:u_name}).then((unit)=>{
-        addLog(req.user._id, `update unit => ${unit.u_name}`)
+    UnitModel.findByIdAndUpdate({_id:req.params.id},{u_name:u_name}).then(async(unit)=>{
+       await addLog(req.user._id, `update unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
             message:"update unit complete"
         })
@@ -46,7 +46,7 @@ exports.deleteUnit = async(req,res)=>{
     
     try{
        const unit = await UnitModel.findOneAndDelete({_id:req.params.id})
-        addLog(req.user._id, `delete unit => ${unit.u_name}`)
+      await addLog(req.user._id, `delete unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
             message:"delete unit complete"
         })

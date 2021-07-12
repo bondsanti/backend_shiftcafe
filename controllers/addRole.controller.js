@@ -9,7 +9,7 @@ exports.addRole = (req, res) => {
     position
   })
 
-  newRole.save((err, role) => {
+  newRole.save(async(err, role) => {
     if (err) {
       res.status(CODE_WARNING).json({
         message: 'Somthing went wrong',
@@ -18,7 +18,7 @@ exports.addRole = (req, res) => {
     }
 
     if (role) {
-      addLog('60dff0bf708d771ce8b1c7c1', `add role ${role.position}`)
+     await addLog(req.user._id, `add role ${role.position}`)
       res.status(CODE_COMPLETE).json({
         massage: 'add role complete'
       })
@@ -29,8 +29,8 @@ exports.addRole = (req, res) => {
 exports.updateRole = (req, res) => {
   const { position } = req.body
   RoleModel.findByIdAndUpdate({ _id: req.params.id }, { position: position })
-    .then(role => {
-      addLog('60dff0bf708d771ce8b1c7c1', `update role ${role.position}`)
+    .then(async role => {
+     await addLog(req.user._id, `update role ${role.position}`)
       res.status(CODE_COMPLETE).json({
         massage: 'update role complete'
       })
@@ -47,7 +47,7 @@ exports.deleteRole = async (req, res) => {
   const id = req.params.id
   try {
     const role = await RoleModel.findOneAndDelete({ _id: id })
-    addLog('60dff0bf708d771ce8b1c7c1', `delete role ${role.position}`)
+    await addLog(req.user._id, `delete role ${role.position}`)
     res.status(CODE_COMPLETE).json({
       message: `delete role complete`
     })
