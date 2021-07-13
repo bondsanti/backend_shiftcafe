@@ -17,7 +17,7 @@ exports.login = (req, res) => {
         res.cookie('token', token, { expiresIn: '15d' })
         res.status(200).json({
           token,
-          employee: emp
+          message:'login complete'
         })
       } else {
         return res.status(201).json({
@@ -39,7 +39,7 @@ exports.logout = (req, res) => {
 
 exports.getUser = (req,res)=>{
   EmployeeModel.findById({_id:req.user._id}).populate('ref_id_role').then(emp=>{
-    res.status(200).json(emp)
+    res.status(200).json({user:emp})
   })
 }
 
