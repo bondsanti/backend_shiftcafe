@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/customer',requireLogin,addCustomer)
 router.put('/customer/:id',requireLogin,updateCustomer)
 router.delete('/customer/:id',requireLogin,deleteCustomer)
-router.get('/customer',requireLogin,requireAdmin,allCustomer)
+router.get('/customer',requireLogin,allCustomer)
 
 
 module.exports = router
