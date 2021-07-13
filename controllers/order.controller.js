@@ -133,3 +133,9 @@ exports.deleteOrder = (req,res)=>{
         })
       })
 }
+
+exports.allOrder = (req,res)=>{
+  OrderModel.find().populate('ref_cus_id').then(order=>{
+    res.status(CODE_COMPLETE).json(order)
+  })
+}

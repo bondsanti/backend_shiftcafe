@@ -73,3 +73,9 @@ exports.deleteLevelMember = (req, res) => {
       }) 
   }
 }
+
+exports.allLevelMember = (req,res)=>{
+  LevelMemberModel.find().then(level=>{
+    res.status(CODE_COMPLETE).json(level)
+  })
+}

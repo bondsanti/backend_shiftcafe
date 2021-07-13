@@ -58,3 +58,9 @@ exports.deleteCoupon = (req,res)=>{
          })
      })
 }
+
+exports.allCoupon = (req,res)=>{
+    CouponModel.find().then(coupon=>{
+        res.status(CODE_COMPLETE).json(coupon)
+    })
+}

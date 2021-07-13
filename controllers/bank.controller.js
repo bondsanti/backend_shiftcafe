@@ -83,3 +83,9 @@ exports.deleteBank = (req, res) => {
       })
     })
 }
+
+exports.allBank = (req,res)=>{
+ BankModel.find().then(bank=>{
+   res.status(CODE_COMPLETE).json(bank)
+ })
+}

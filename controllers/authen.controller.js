@@ -37,4 +37,10 @@ exports.logout = (req, res) => {
   })
 }
 
+exports.getUser = (req,res)=>{
+  EmployeeModel.findById({_id:req.user._id}).populate('ref_id_role').then(emp=>{
+    res.status(200).json(emp)
+  })
+}
+
 

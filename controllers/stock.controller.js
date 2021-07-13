@@ -90,3 +90,9 @@ exports.deleteStock = async (req, res) => {
     })
   }
 }
+
+exports.allStock = (req,res)=>{
+  StockModel.find().then(stock=>{
+    res.status(CODE_COMPLETE).json(stock)
+  })
+}

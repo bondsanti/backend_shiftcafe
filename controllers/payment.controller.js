@@ -91,3 +91,9 @@ exports.deletePayment = (req,res)=>{
         })
       })
 }
+
+exports.allPayment = (req,res)=>{
+  PaymentModel.find().then(payment=>{
+    res.status(CODE_COMPLETE).json(payment)
+  })
+}

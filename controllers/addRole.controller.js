@@ -58,3 +58,9 @@ exports.deleteRole = async (req, res) => {
     })
   }
 }
+
+exports.allRole = (req,res)=>{
+  RoleModel.find().then(role=>{
+    res.status(CODE_COMPLETE).json(role)
+  })
+}

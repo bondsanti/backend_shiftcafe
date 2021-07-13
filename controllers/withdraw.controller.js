@@ -64,3 +64,9 @@ exports.deleteWithdraw = (req, res) => {
       })
     })
 }
+
+exports.allWithdraw = (req,res)=>{
+  WithdrawModel.find().then(wd=>{
+    res.status(CODE_COMPLETE).json(wd)
+  })
+}
