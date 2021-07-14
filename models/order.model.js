@@ -5,10 +5,9 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'
   },
-  cus_type: String,
-  ref_cus_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer'
+  bill_name: {
+    type:String,
+    required:true
   },
   type_order: Number,
   list_product: [
@@ -17,13 +16,12 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'
       },
+      price:Number,
+      name:String,
       qty: Number
     }
   ],
-  subprice: Number,
-  discount: Number,
-  vat: Number,
-  total_amount: Number,
+  total_price: Number,
   datetime: {
     type: Date,
     default: Date.now()

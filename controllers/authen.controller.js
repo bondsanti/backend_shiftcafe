@@ -57,29 +57,30 @@ exports.login = async (req, res) => {
   //   }
   // })
 
-  try{const emp = await EmployeeModel.findOne({username:req.body.username})
-  if(emp !== null){
-    if (emp.authenticate(req.body.password)) {
-            const token = jwt.sign(
-              { _id: emp._id, role: emp.ref_id_role },
-              process.env.JWT_SECRET,
-              {
-                expiresIn: '15d'
-              }
-            )
-    
-            res.cookie('token', token, { expiresIn: '15d' })
-            res.status(200).json({
-              token,
-              message: 'login complete'
-            })
-          } else {
-             res.status(201).json({
-              message: 'Invalid password'
-            })
+  try {
+    const emp = await EmployeeModel.findOne({ username: req.body.username })
+    if (emp !== null) {
+      if (emp.authenticate(req.body.password)) {
+        const token = jwt.sign(
+          { _id: emp._id, role: emp.ref_id_role },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '15d'
           }
-  }else{
-    CustomerModel.findOne({ tel: req.body.username })
+        )
+
+        res.cookie('token', token, { expiresIn: '15d' })
+        res.status(200).json({
+          token,
+          message: 'login complete'
+        })
+      } else {
+        res.status(201).json({
+          message: 'Invalid password'
+        })
+      }
+    } else {
+      CustomerModel.findOne({ tel: req.body.username })
         .then(cus => {
           if (req.body.password == cus.tel) {
             const token = jwt.sign(
@@ -107,7 +108,8 @@ exports.login = async (req, res) => {
             error: e
           })
         })
-  }}catch(e){
+    }
+  } catch (e) {
     console.log(e)
   }
 
