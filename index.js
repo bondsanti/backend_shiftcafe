@@ -50,7 +50,7 @@ const withdrawRoute = require('./routes/withdraw.route')
 const stockRoute = require('./routes/stock.route')
 const orderRoute = require('./routes/order.route')
 const paymentRoute = require('./routes/payment.route')
-const pointPaymentRoute = require('./routes/pointPayment.route')
+//const pointPaymentRoute = require('./routes/pointPayment.route')
 const bankRoute = require('./routes/bank.route')
 
 app.get('/', (req, res) => {
@@ -71,7 +71,7 @@ app.use('/api', withdrawRoute)
 app.use('/api', stockRoute)
 app.use('/api', orderRoute)
 app.use('/api', paymentRoute)
-app.use('/api', pointPaymentRoute)
+//app.use('/api', pointPaymentRoute)
 app.use('/api',bankRoute)
 
 app.listen(process.env.PORT, process.env.IP_ADDRESS, () => {

@@ -3,9 +3,12 @@ const WithdrawModel = require('./../models/withdraw.model')
 const { CODE_COMPLETE, CODE_WARNING } = require('../instant')
 
 exports.addWithdraw = (req, res) => {
+  //console.log(req.body)
   WithdrawModel.create({
     ref_emp_id: req.user._id,
-    total_money: req.body.total_money
+    total_money: req.body.total_money,
+    type: req.body.type,
+    remark: req.body.remark
   })
     .then(async wd => {
       await addLog(
@@ -29,7 +32,10 @@ exports.updateWithdraw = (req, res) => {
     { _id: req.params.id },
     {
       ref_emp_id: req.user._id,
-      total_money: req.body.total_money
+      total_money: req.body.total_money,
+      type: req.body.type,
+    remark: req.body.remark
+
     }
   )
     .then(async wd => {
@@ -66,7 +72,7 @@ exports.deleteWithdraw = (req, res) => {
 }
 
 exports.allWithdraw = (req,res)=>{
-  WithdrawModel.find().then(wd=>{
+  WithdrawModel.find().populate('ref_emp_id').then(wd=>{
     res.status(CODE_COMPLETE).json(wd)
   })
 }

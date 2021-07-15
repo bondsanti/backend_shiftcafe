@@ -13,7 +13,8 @@ exports.addOrder = (req, res) => {
     .then(async order => {
       await addLog(req.user._id, `add order id = ${order._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add order complete'
+        message: 'add order complete',
+        data:order
       })
     })
     .catch(e => {
@@ -67,6 +68,13 @@ exports.deleteOrder = (req, res) => {
 
 exports.allOrder = (req, res) => {
   OrderModel.find()
+  .then(order => {
+    res.status(CODE_COMPLETE).json(order)
+  })
+}
+
+exports.holdOrder = (req, res) => {
+  OrderModel.find({status:0})
   .then(order => {
     res.status(CODE_COMPLETE).json(order)
   })

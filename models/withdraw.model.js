@@ -13,7 +13,12 @@ const withdrawSchema = new mongoose.Schema({
     datetime:{
         type:Date,
         default:Date.now()
-    }
+    },
+    type:{
+        type:String,
+        required:true
+    },
+    remark:String
 })
 
 module.exports = mongoose.model('Withdraw',withdrawSchema)

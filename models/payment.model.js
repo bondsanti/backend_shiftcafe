@@ -11,11 +11,13 @@ const paymentSchema = new mongoose.Schema({
         ref:'Employee',
         required:true
     },
-    ref_point_id:{
+    ref_cus_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Point_payment',
+        ref:'Customer',
+        required:true
     },
-    type_payment:Number,
+   
+    type_payment:String,
     ref_bank_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Bank',
