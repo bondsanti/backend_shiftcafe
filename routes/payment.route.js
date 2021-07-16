@@ -7,7 +7,7 @@ router.post('/payment',requireLogin,addPayment)
 router.put('/payment/:id',requireLogin,updatePayment)
 router.delete('/payment/:id',requireLogin,deletePayment)
 router.get('/payment',requireLogin,allPayment)
-router.get('/payment/customer/:id',requireLogin,getPaymentByIdCustomer)
+router.get('/payment/cust0omer/:id',requireLogin,getPaymentByIdCustomer)
 router.get('/payment/:id',requireLogin,getPaymentById)
 
 module.exports = router
