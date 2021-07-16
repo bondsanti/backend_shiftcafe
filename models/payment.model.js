@@ -22,8 +22,18 @@ const paymentSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Bank',
     },
+    ref_point_pay_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Point_payment',
+    },
     receive_money:Number,
     withdraw_money:Number,
+    total_price:Number,
+    discount_price:Number,
+    after_discount:Number,
+    after_vat:Number,
+    vat_price:Number,
+    net_price:Number,
     datetime:{
         type:Date,
         default:Date.now()

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const pointPaymentSchema = new mongoose.Schema({
-    ref_payment_id:{
+    ref_cus_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Payment',
+        ref:'Customer',
         required:true
     },
     point:Number

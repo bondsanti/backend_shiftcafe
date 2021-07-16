@@ -81,3 +81,9 @@ exports.allCustomer = (req,res)=>{
         res.status(CODE_COMPLETE).json(cus)
     })
 }
+
+exports.getCustomerById = (req,res)=>{
+  customerModel.findById({_id:req.params.id}).populate('ref_level_id').then(cus=>{
+      res.status(CODE_COMPLETE).json(cus)
+  })
+}
