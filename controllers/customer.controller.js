@@ -76,14 +76,27 @@ exports.deleteCustomer = (req, res) => {
     })
 }
 
-exports.allCustomer = (req,res)=>{
-    customerModel.find().populate('ref_level_id').then(cus=>{
-        res.status(CODE_COMPLETE).json(cus)
+exports.allCustomer = async (req, res) => {
+  const cus = await customerModel.find().populate('ref_level_id')
+
+  const newCus = cus.filter(c => c.pname !== 'guest')
+  res.status(CODE_COMPLETE).json(newCus)
+}
+
+exports.allCustomer2 = (req, res) => {
+  customerModel
+    .find()
+    .populate('ref_level_id')
+    .then(cus => {
+      res.status(CODE_COMPLETE).json(cus)
     })
 }
 
-exports.getCustomerById = (req,res)=>{
-  customerModel.findById({_id:req.params.id}).populate('ref_level_id').then(cus=>{
+exports.getCustomerById = (req, res) => {
+  customerModel
+    .findById({ _id: req.params.id })
+    .populate('ref_level_id')
+    .then(cus => {
       res.status(CODE_COMPLETE).json(cus)
-  })
+    })
 }

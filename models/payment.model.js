@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const today = new Date()
 const paymentSchema = new mongoose.Schema({
     ref_order_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -25,6 +25,10 @@ const paymentSchema = new mongoose.Schema({
     ref_point_pay_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Point_payment',
+    },
+    invoice:{
+        type:String,
+        default:`${today.getDate()}${today.getMonth()+1}${today.getFullYear()}${today.getMinutes()}${today.getSeconds()}`
     },
     receive_money:Number,
     withdraw_money:Number,

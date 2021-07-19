@@ -16,6 +16,14 @@ const pointManageSchema = new mongoose.Schema({
     status:{
         type:String,
         required:true
+    },
+    point_by:{
+        type:String,
+        required:true
+    },
+    datetime:{
+        type:Date,
+        default:Date.now()
     }
     
 })

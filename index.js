@@ -57,6 +57,11 @@ app.get('/', (req, res) => {
   res.send('BACKEND SHIFT CAFE')
 })
 
+// app.get('/today', (req, res) => {
+//   const today = new Date()
+//   console.log(`${today.getDate()}${today.getMonth()+1}${today.getFullYear()}${today.getMinutes()}${today.getSeconds()}`)
+// })
+
 app.use('/api', roleRoute)
 app.use('/api', employeeRoute)
 app.use('/api', authenRoute)

@@ -4,6 +4,8 @@ const PaymentModel = require('./../models/payment.model')
 const PointPaymentModel = require('./../models/pointPayment.model')
 const OrderModel = require('./../models/order.model')
 const CustomerModel = require('./../models/customer.model')
+//const PointManageModel = require('./../models/pointManage.model')
+const { addPointByPayment } = require('./pointManage.controller')
 //const { addPointPayment } = require('./pointPayment.controller')
 
 exports.addPayment = async (req, res) => {
@@ -17,13 +19,13 @@ exports.addPayment = async (req, res) => {
     point:newPoint,
 })
 
-const cus = await CustomerModel.findById({_id:req.body.ref_cus_id})
-const newPoint2 = point.point + cus.point
- await CustomerModel.findByIdAndUpdate({_id:cus._id},{point:newPoint2})
-await addLog(req.user._id,`add new ${point.point} point payment where customer id -> ${point.ref_cus_id}`)
+// const cus = await CustomerModel.findById({_id:req.body.ref_cus_id})
+// const newPoint2 = point.point + cus.point
+//  await CustomerModel.findByIdAndUpdate({_id:cus._id},{point:newPoint2})
+// await addLog(req.user._id,`add new ${point.point} point payment where customer id -> ${point.ref_cus_id}`)
   //1 เงินสด 2 โอน
 
-  //console.log(point)
+  //console.log(req.body.orders)
   let newPayment = {}
   if (req.body.type_payment === 'transfer') {
     newPayment = {
@@ -63,12 +65,18 @@ await addLog(req.user._id,`add new ${point.point} point payment where customer i
   PaymentModel.create(newPayment)
     .then(async pay => {
       await addLog(req.user._id, `add payment id -> ${pay._id}`)
+      await addPointByPayment(req.body.ref_cus_id,newPoint,req.user._id)
       await OrderModel.findByIdAndUpdate(
         { _id: pay.ref_order_id },
-        { status: 1, type_order: req.body.type_order }
+        { 
+          status: 1, 
+          type_order: req.body.type_order ,
+          list_product:req.body.orders
+        }
       )
       res.status(CODE_COMPLETE).json({
-        message: 'add payment complete'
+        message: 'add payment complete',
+        data:pay
       })
     })
     .catch(e => {
