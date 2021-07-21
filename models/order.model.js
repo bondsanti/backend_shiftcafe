@@ -1,9 +1,14 @@
 const mongoose = require('mongoose')
+const today = new Date()
 
 const orderSchema = new mongoose.Schema({
   ref_emp_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'
+  },
+  order_no:{
+    type:String,
+    required:true
   },
   bill_name: {
     type:String,

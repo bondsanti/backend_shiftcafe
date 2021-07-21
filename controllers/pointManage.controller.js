@@ -14,7 +14,7 @@ exports.addPointManage = async (req, res) => {
       );
       const pointManage = await pointManageModel.create({
         ref_cus_id: req.body.ref_cus_id,
-        ref_emp_id: req.body.ref_emp_id,
+        ref_emp_id: req.user._id,
         point: req.body.point,
         status: req.body.status,
         point_by: "system",
@@ -43,7 +43,7 @@ exports.addPointManage = async (req, res) => {
         );
         const pointManage = await pointManageModel.create({
           ref_cus_id: req.body.ref_cus_id,
-          ref_emp_id: req.body.ref_emp_id,
+          ref_emp_id: req.user._id,
           point: req.body.point,
           status: req.body.status,
           point_by: "system",

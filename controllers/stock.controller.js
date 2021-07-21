@@ -38,6 +38,7 @@ exports.updateStock = async (req, res) => {
     const stock = await StockModel.findByIdAndUpdate(
       { _id: req.params.id },
       {
+        ref_pro_id:req.body.ref_pro_id,
         qty_min: req.body.qty_min,
         qty_max: req.body.qty_max,
         ref_emp_id: req.user._id
@@ -92,7 +93,13 @@ exports.deleteStock = async (req, res) => {
 }
 
 exports.allStock = (req,res)=>{
-  StockModel.find().then(stock=>{
+  StockModel.find().sort({datetime: 'desc'}).populate('ref_pro_id').then(stock=>{
+    res.status(CODE_COMPLETE).json(stock)
+  })
+}
+
+exports.allStockByProductId = (req,res)=>{
+  StockModel.find({ref_pro_id:req.params.id}).sort({datetime: 'desc'}).populate('ref_pro_id').then(stock=>{
     res.status(CODE_COMPLETE).json(stock)
   })
 }

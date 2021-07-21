@@ -48,6 +48,7 @@ exports.updateProduct = (req, res) => {
   try {
     const form = new formidable.IncomingForm()
     form.parse(req, async (err, fields, files) => {
+      console.log(fields)
       let product = await productModel.findOneAndUpdate(
         { _id: req.params.id },
         fields
@@ -57,6 +58,23 @@ exports.updateProduct = (req, res) => {
       res.status(CODE_COMPLETE).json({
         message: 'update product complete'
       })
+    })
+  } catch (e) {
+    res.status(CODE_WARNING).json({
+      message: 'update product uncomplete',
+      error: e
+    })
+  }
+}
+
+exports.updateProduct2 = async (req, res) => {
+  try {
+    await productModel.findOneAndUpdate(
+      { _id: req.params.id },
+      { status: req.body.status }
+    )
+    res.status(CODE_COMPLETE).json({
+      message: 'update product complete'
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
@@ -89,6 +107,16 @@ exports.deleteProduct = (req, res) => {
 exports.allProduct = (req, res) => {
   productModel
     .find()
+    .populate('ref_uid')
+    .populate('ref_cate_id')
+    .then(product => {
+      res.status(CODE_COMPLETE).json(product)
+    })
+}
+
+exports.showProduct = (req, res) => {
+  productModel
+    .find({ status: true })
     .populate('ref_uid')
     .populate('ref_cate_id')
     .then(product => {

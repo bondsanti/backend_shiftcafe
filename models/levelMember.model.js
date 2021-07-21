@@ -9,7 +9,8 @@ const levelMemberSchema = new mongoose.Schema({
     discount:{
         type:Number,
         required:true
-    }
+    },
+    img:String
 })
 
 module.exports = mongoose.model("level_member",levelMemberSchema)

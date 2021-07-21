@@ -14,18 +14,20 @@ exports.addPayment = async (req, res) => {
   const newPoint = Math.floor(req.body.total_price / 100) * 5
   //const point = await addPointPayment(newPoint, req.body.ref_cus_id)
 
-  const point =  await PointPaymentModel.create({
-    ref_cus_id:req.body.ref_cus_id,
-    point:newPoint,
-})
+  const point = await PointPaymentModel.create({
+    ref_cus_id: req.body.ref_cus_id,
+    point: newPoint
+  })
 
-// const cus = await CustomerModel.findById({_id:req.body.ref_cus_id})
-// const newPoint2 = point.point + cus.point
-//  await CustomerModel.findByIdAndUpdate({_id:cus._id},{point:newPoint2})
-// await addLog(req.user._id,`add new ${point.point} point payment where customer id -> ${point.ref_cus_id}`)
+  // const cus = await CustomerModel.findById({_id:req.body.ref_cus_id})
+  // const newPoint2 = point.point + cus.point
+  //  await CustomerModel.findByIdAndUpdate({_id:cus._id},{point:newPoint2})
+  // await addLog(req.user._id,`add new ${point.point} point payment where customer id -> ${point.ref_cus_id}`)
   //1 เงินสด 2 โอน
 
   //console.log(req.body.orders)
+  const today = new Date()
+
   let newPayment = {}
   if (req.body.type_payment === 'transfer') {
     newPayment = {
@@ -42,7 +44,11 @@ exports.addPayment = async (req, res) => {
       vat_price: req.body.vat_price,
       after_vat: req.body.after_vat,
       net_price: req.body.net_price,
-      ref_point_pay_id: point.id
+      ref_point_pay_id: point.id,
+      invoice: `${today.getDate()}${today.getMonth() +
+        1}${today.getFullYear()}${Math.floor(
+        Math.random() * (999 - 100) + 100
+      )}${today.getSeconds()}`
     }
   } else {
     newPayment = {
@@ -58,25 +64,29 @@ exports.addPayment = async (req, res) => {
       vat_price: req.body.vat_price,
       after_vat: req.body.after_vat,
       net_price: req.body.net_price,
-      ref_point_pay_id: point.id
+      ref_point_pay_id: point.id,
+      invoice: `${today.getDate()}${today.getMonth() +
+        1}${today.getFullYear()}${Math.floor(
+        Math.random() * (999 - 100) + 100
+      )}${today.getSeconds()}`
     }
   }
 
   PaymentModel.create(newPayment)
     .then(async pay => {
       await addLog(req.user._id, `add payment id -> ${pay._id}`)
-      await addPointByPayment(req.body.ref_cus_id,newPoint,req.user._id)
+      await addPointByPayment(req.body.ref_cus_id, newPoint, req.user._id)
       await OrderModel.findByIdAndUpdate(
         { _id: pay.ref_order_id },
-        { 
-          status: 1, 
-          type_order: req.body.type_order ,
-          list_product:req.body.orders
+        {
+          status: 1,
+          type_order: req.body.type_order,
+          list_product: req.body.orders
         }
       )
       res.status(CODE_COMPLETE).json({
         message: 'add payment complete',
-        data:pay
+        data: pay
       })
     })
     .catch(e => {
@@ -141,15 +151,23 @@ exports.deletePayment = (req, res) => {
 }
 
 exports.allPayment = (req, res) => {
-  PaymentModel.find().then(payment => {
-    res.status(CODE_COMPLETE).json(payment)
-  })
+  PaymentModel.find()
+    .populate('ref_order_id','order_no')
+    .populate('ref_emp_id','username')
+    .populate('ref_cus_id')
+    .populate('ref_bank_id','bank_name')
+    .populate('ref_point_pay_id','point')
+    .then(payment => {
+      res.status(CODE_COMPLETE).json(payment)
+    })
 }
 
 exports.getPaymentByIdCustomer = (req, res) => {
-  PaymentModel.find({ ref_cus_id: req.params.id }).populate('ref_point_pay_id').then(payment => {
-    res.status(CODE_COMPLETE).json(payment)
-  })
+  PaymentModel.find({ ref_cus_id: req.params.id })
+    .populate('ref_point_pay_id')
+    .then(payment => {
+      res.status(CODE_COMPLETE).json(payment)
+    })
 }
 
 exports.getPaymentById = (req, res) => {

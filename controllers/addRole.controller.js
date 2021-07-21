@@ -1,5 +1,5 @@
 const RoleModel = require('./../models/role.model')
-const { CODE_COMPLETE, CODE_WARNING ,CODE_ERROR} = require('../instant')
+const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require('../instant')
 const { addLog } = require('./addLog.controller')
 
 exports.addRole = (req, res) => {
@@ -9,7 +9,7 @@ exports.addRole = (req, res) => {
     position
   })
 
-  newRole.save(async(err, role) => {
+  newRole.save(async (err, role) => {
     if (err) {
       res.status(CODE_WARNING).json({
         message: 'Somthing went wrong',
@@ -18,7 +18,7 @@ exports.addRole = (req, res) => {
     }
 
     if (role) {
-     await addLog(req.user._id, `add role ${role.position}`)
+      await addLog(req.user._id, `add role ${role.position}`)
       res.status(CODE_COMPLETE).json({
         massage: 'add role complete'
       })
@@ -30,7 +30,7 @@ exports.updateRole = (req, res) => {
   const { position } = req.body
   RoleModel.findByIdAndUpdate({ _id: req.params.id }, { position: position })
     .then(async role => {
-     await addLog(req.user._id, `update role ${role.position}`)
+      await addLog(req.user._id, `update role ${role.position}`)
       res.status(CODE_COMPLETE).json({
         massage: 'update role complete'
       })
@@ -59,8 +59,11 @@ exports.deleteRole = async (req, res) => {
   }
 }
 
-exports.allRole = (req,res)=>{
-  RoleModel.find().then(role=>{
-    res.status(CODE_COMPLETE).json(role)
+exports.allRole = (req, res) => {
+  RoleModel.find().then(role => {
+    const newRole = role.filter(
+      rl => rl.position !== 'admin'  && rl.position !== 'guest'
+    )
+    res.status(CODE_COMPLETE).json(newRole)
   })
 }

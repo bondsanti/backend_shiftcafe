@@ -105,12 +105,14 @@ exports.updateEmployee = async (req, res) => {
     })
 }
 
-exports.allEmployee = (req, res) => {
+exports.allEmployee = async(req, res) => {
   EmployeeModel.find()
     .populate('ref_id_role')
     .then(Emp => {
-      res.status(CODE_COMPLETE).json(Emp)
+      let emp2 = Emp.filter(em => em.ref_id_role.position !== "admin") 
+      res.status(CODE_COMPLETE).json(emp2)
     })
+
 }
 
 exports.deleteEmployee = (req, res) => {
@@ -139,4 +141,12 @@ exports.deleteEmployee = (req, res) => {
       message: 'id is undefinded'
     })
   }
+}
+
+exports.getEmployeeByUsername = async(req, res) => {
+  EmployeeModel.find({username:req.params.username})
+    .then(Emp => {
+      res.status(CODE_COMPLETE).json(Emp)
+    })
+
 }

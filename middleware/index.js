@@ -19,11 +19,11 @@ exports.requireLogin = (req, res, next) => {
 
 exports.requireAdmin = async(req,res,next)=>{
   const role = await RoleModel.findById({_id:req.user.role})
-  if(role.position === 'admin'){
+  if(role.position === 'admin' || role.position === 'manager'){
     next()
   }else{
     return res.status(CODE_WARNING).json({
-      message:'Access only admin'
+      message:'Access only admin or manager'
     })
   }
 }
