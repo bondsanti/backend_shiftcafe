@@ -38,6 +38,11 @@ const customerSchema = new mongoose.Schema({
         type:Number,
         default:0 
     },
+    member_no:{
+        type:String,
+        required:true
+    },
+
     datetime:{
         type:Date,
         default:Date.now() 

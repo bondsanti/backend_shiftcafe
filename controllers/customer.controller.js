@@ -3,6 +3,7 @@ const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require('../instant')
 const customerModel = require('./../models/customer.model')
 
 exports.addCustomer = (req, res) => {
+  const today = new Date()
   customerModel
     .create({
       pname: req.body.pname,
@@ -13,7 +14,8 @@ exports.addCustomer = (req, res) => {
       email: req.body.email,
       address: req.body.address,
       ref_level_id: req.body.ref_level_id,
-      point: req.body.point
+      point: req.body.point,
+      member_no:`${today.getFullYear()+543}${today.getMonth()+1}${today.getDate()}${Math.floor(Math.random() * (9999 - 1000) + 1000)}`
     })
     .then(async cus => {
       await addLog(req.user._id, `add customer => ${cus.fname}`)
@@ -96,6 +98,14 @@ exports.getCustomerById = (req, res) => {
   customerModel
     .findById({ _id: req.params.id })
     .populate('ref_level_id')
+    .then(cus => {
+      res.status(CODE_COMPLETE).json(cus)
+    })
+}
+
+exports.getCustomerByTel = (req, res) => {
+  customerModel
+    .find({ tel: req.params.id })
     .then(cus => {
       res.status(CODE_COMPLETE).json(cus)
     })

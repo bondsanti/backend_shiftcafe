@@ -3,59 +3,7 @@ const CustomerModel = require('./../models/customer.model')
 const jwt = require('jsonwebtoken')
 
 exports.login = async (req, res) => {
-  // EmployeeModel.findOne({ username: req.body.username }).exec((err, emp) => {
-  //   if (err) return res.status(400).json({ message: err })
-  //   if (emp) {
-  //     if (emp.authenticate(req.body.password)) {
-  //       const token = jwt.sign(
-  //         { _id: emp._id, role: emp.ref_id_role },
-  //         process.env.JWT_SECRET,
-  //         {
-  //           expiresIn: '15d'
-  //         }
-  //       )
-
-  //       res.cookie('token', token, { expiresIn: '15d' })
-  //       res.status(200).json({
-  //         token,
-  //         message: 'login complete'
-  //       })
-  //     } else {
-  //       return res.status(201).json({
-  //         message: 'Invalid password'
-  //       })
-  //     }
-  //   } else {
-  //     CustomerModel.findOne({ tel: req.body.username })
-  //       .then(cus => {
-  //         if (req.body.password == cus.tel) {
-  //           const token = jwt.sign(
-  //             { _id: cus._id, role: 'member' },
-  //             process.env.JWT_SECRET,
-  //             {
-  //               expiresIn: '15d'
-  //             }
-  //           )
-
-  //           res.cookie('token', token, { expiresIn: '15d' })
-  //           res.status(200).json({
-  //             token,
-  //             message: 'login complete'
-  //           })
-  //         } else {
-  //           res.status(201).json({
-  //             message: 'Incorrect password'
-  //           })
-  //         }
-  //       })
-  //       .then(e => {
-  //         res.status(201).json({
-  //           message: 'username not found',
-  //           error: e
-  //         })
-  //       })
-  //   }
-  // })
+  
 
   try {
     const emp = await EmployeeModel.findOne({ username: req.body.username })
@@ -113,34 +61,7 @@ exports.login = async (req, res) => {
     console.log(e)
   }
 
-  // CustomerModel.findOne({ tel: req.body.username })
-  //       .then(cus => {
-  //         if (req.body.password == cus.tel) {
-  //           const token = jwt.sign(
-  //             { _id: cus._id, role: 'member' },
-  //             process.env.JWT_SECRET,
-  //             {
-  //               expiresIn: '15d'
-  //             }
-  //           )
-
-  //           res.cookie('token', token, { expiresIn: '15d' })
-  //           res.status(200).json({
-  //             token,
-  //             message: 'login complete'
-  //           })
-  //         } else {
-  //           res.status(201).json({
-  //             message: 'Incorrect password'
-  //           })
-  //         }
-  //       })
-  //       .then(e => {
-  //         res.status(201).json({
-  //           message: 'username not found',
-  //           error: e
-  //         })
-  //       })
+  
 }
 
 exports.logout = (req, res) => {

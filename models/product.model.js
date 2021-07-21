@@ -28,6 +28,10 @@ const productSchema = new mongoose.Schema({
     stock:{
         type:String,
         required:true
+    },
+    status:{
+        type:Boolean,
+        default:true
     }
 })
 
