@@ -110,7 +110,7 @@ exports.allEmployee = async(req, res) => {
     .populate('ref_id_role')
     .then(Emp => {
       let emp2 = Emp.filter(em => em.ref_id_role.position !== "admin") 
-      res.status(CODE_COMPLETE).json(emp2)
+      res.status(CODE_COMPLETE).json(Emp)
     })
 
 }
