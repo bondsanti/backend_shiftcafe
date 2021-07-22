@@ -72,17 +72,7 @@ exports.logout = (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-  // EmployeeModel.findById({ _id: req.user._id })
-  //   .populate('ref_id_role')
-  //   .then(emp => {
-  //     res.status(200).json({ user: emp })
-  //   })
-  //   .catch(async () => {
-  //     const cus = await CustomerModel.findById({ _id: req.user._id })
-  //     res
-  //       .status(200)
-  //       .json({ user: { ...cus, ref_id_role: { position: 'member' } } })
-  //   })
+  
 
   const emp = await EmployeeModel.findById({ _id: req.user._id }).populate(
     'ref_id_role'

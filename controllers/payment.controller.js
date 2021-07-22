@@ -8,6 +8,7 @@ const CustomerModel = require('./../models/customer.model')
 const { addPointByPayment } = require('./pointManage.controller')
 //const { addPointPayment } = require('./pointPayment.controller')
 
+const today = new Date()
 exports.addPayment = async (req, res) => {
   //const order = await OrderModel.findById({_id:req.body.ref_order_id})
   //console.log(req.body)
@@ -26,7 +27,6 @@ exports.addPayment = async (req, res) => {
   //1 เงินสด 2 โอน
 
   //console.log(req.body.orders)
-  const today = new Date()
 
   let newPayment = {}
   if (req.body.type_payment === 'transfer') {
@@ -152,11 +152,11 @@ exports.deletePayment = (req, res) => {
 
 exports.allPayment = (req, res) => {
   PaymentModel.find()
-    .populate('ref_order_id','order_no')
-    .populate('ref_emp_id','username')
+    .populate('ref_order_id', 'order_no')
+    .populate('ref_emp_id', 'username')
     .populate('ref_cus_id')
-    .populate('ref_bank_id','bank_name')
-    .populate('ref_point_pay_id','point')
+    .populate('ref_bank_id', 'bank_name')
+    .populate('ref_point_pay_id', 'point')
     .then(payment => {
       res.status(CODE_COMPLETE).json(payment)
     })
@@ -172,6 +172,38 @@ exports.getPaymentByIdCustomer = (req, res) => {
 
 exports.getPaymentById = (req, res) => {
   PaymentModel.findById({ _id: req.params.id })
+    .populate('ref_order_id', 'type_order')
+    .then(payment => {
+      res.status(CODE_COMPLETE).json(payment)
+    })
+}
+
+exports.getPaymentByToday = (req, res) => {
+  PaymentModel.find({
+    datetime: {
+      $gte: new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    }
+  })
+    .populate('ref_order_id', 'type_order')
+    .then(payment => {
+      res.status(CODE_COMPLETE).json(payment)
+    })
+}
+
+exports.getPaymentByMonth = (req, res) => {
+  PaymentModel.find({
+    datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()+','+today.getMonth()) }
+  })
+    .populate('ref_order_id', 'type_order')
+    .then(payment => {
+      res.status(CODE_COMPLETE).json(payment)
+    })
+}
+
+exports.getPaymentByYear = (req, res) => {
+  PaymentModel.find({
+    datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()) }
+  })
     .populate('ref_order_id', 'type_order')
     .then(payment => {
       res.status(CODE_COMPLETE).json(payment)
