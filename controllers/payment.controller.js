@@ -8,7 +8,7 @@ const CustomerModel = require('./../models/customer.model')
 const { addPointByPayment } = require('./pointManage.controller')
 //const { addPointPayment } = require('./pointPayment.controller')
 
-const today = new Date()
+
 exports.addPayment = async (req, res) => {
   //const order = await OrderModel.findById({_id:req.body.ref_order_id})
   //console.log(req.body)
@@ -179,6 +179,7 @@ exports.getPaymentById = (req, res) => {
 }
 
 exports.getPaymentByToday = (req, res) => {
+  const today = new Date()
   PaymentModel.find({
     datetime: {
       $gte: new Date(today.getFullYear(), today.getMonth(), today.getDate())
@@ -191,6 +192,7 @@ exports.getPaymentByToday = (req, res) => {
 }
 
 exports.getPaymentByMonth = (req, res) => {
+  const today = new Date()
   PaymentModel.find({
     datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()+','+today.getMonth()) }
   })
@@ -201,6 +203,7 @@ exports.getPaymentByMonth = (req, res) => {
 }
 
 exports.getPaymentByYear = (req, res) => {
+  const today = new Date()
   PaymentModel.find({
     datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()) }
   })
