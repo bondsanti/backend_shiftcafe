@@ -10,23 +10,23 @@ const { addPointByPayment } = require('./pointManage.controller')
 
 
 exports.addPayment = async (req, res) => {
-  //const order = await OrderModel.findById({_id:req.body.ref_order_id})
-  //console.log(req.body)
+  const today = new Date()
+  if(parseInt(req.body.receive_money) < parseInt(req.body.net_price)){
+    res.status(CODE_WARNING).json({
+      message:"ยอดเงินที่รับมาไม่พอจ่ายค่าสินค้า"
+    })
+    return
+  }
+ 
   const newPoint = Math.floor(req.body.total_price / 100) * 5
-  //const point = await addPointPayment(newPoint, req.body.ref_cus_id)
+ 
 
   const point = await PointPaymentModel.create({
     ref_cus_id: req.body.ref_cus_id,
     point: newPoint
   })
 
-  // const cus = await CustomerModel.findById({_id:req.body.ref_cus_id})
-  // const newPoint2 = point.point + cus.point
-  //  await CustomerModel.findByIdAndUpdate({_id:cus._id},{point:newPoint2})
-  // await addLog(req.user._id,`add new ${point.point} point payment where customer id -> ${point.ref_cus_id}`)
-  //1 เงินสด 2 โอน
-
-  //console.log(req.body.orders)
+  
 
   let newPayment = {}
   if (req.body.type_payment === 'transfer') {
