@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const today = new Date()
+
 
 const orderSchema = new mongoose.Schema({
   ref_emp_id: {
@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
   },
   order_no:{
     type:String,
-    required:true
+    required:true,
+    unique : true
   },
   bill_name: {
     type:String,

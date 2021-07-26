@@ -70,7 +70,7 @@ exports.addPointManage = async (req, res) => {
 };
 
 exports.allPointManage = (req, res) => {
-  pointManageModel.find().populate('ref_emp_id').then((point) => {
+  pointManageModel.find().populate('ref_emp_id','fname lname pname').populate("ref_cus_id",'pname fname lname').then((point) => {
     res.status(CODE_COMPLETE).json(point);
   });
 };
