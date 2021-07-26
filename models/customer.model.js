@@ -21,6 +21,7 @@ const customerSchema = new mongoose.Schema({
         type:String,
         required:true 
     },
+    password:String,
     email:{
         type:String,
         required:true 
@@ -40,7 +41,8 @@ const customerSchema = new mongoose.Schema({
     },
     member_no:{
         type:String,
-        required:true
+        required:true,
+        unique : true
     },
 
     datetime:{

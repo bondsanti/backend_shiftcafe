@@ -8,7 +8,8 @@ exports.addWithdraw = (req, res) => {
     ref_emp_id: req.user._id,
     total_money: req.body.total_money,
     type: req.body.type,
-    remark: req.body.remark
+    remark: req.body.remark,
+    datetime: new Date(req.body.datetime)
   })
     .then(async wd => {
       await addLog(

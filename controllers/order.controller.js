@@ -11,7 +11,8 @@ exports.addOrder = (req, res) => {
     type_order: req.body.type_order,
     total_price: req.body.total_price,
     bill_name: req.body.bill_name,
-    order_no:`${today.getFullYear()+543}${today.getMonth()+1}${today.getDate()}${Math.floor(Math.random() * (999 - 100) + 100)}${today.getSeconds()}`
+    order_no:`${today.getFullYear()+543}${today.getMonth()+1}${today.getDate()}${Math.floor(Math.random() * (999 - 100) + 100)}${today.getSeconds()}`,
+    datetime:today
   })
     .then(async order => {
       await addLog(req.user._id, `add order id = ${order._id}`)
@@ -70,7 +71,7 @@ exports.deleteOrder = (req, res) => {
 }
 
 exports.allOrder = (req, res) => {
-  OrderModel.find()
+  OrderModel.find().populate('ref_emp_id','fname lname')
   .then(order => {
     res.status(CODE_COMPLETE).json(order)
   })

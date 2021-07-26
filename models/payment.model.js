@@ -28,10 +28,17 @@ const paymentSchema = new mongoose.Schema({
     },
     invoice:{
         type:String,
+        required:true,
+        unique : true
+    },
+    receive_money:{
+        type:Number,
         required:true
     },
-    receive_money:Number,
-    withdraw_money:Number,
+    withdraw_money:{
+        type:Number,
+        required:true
+    },
     total_price:Number,
     discount_price:Number,
     after_discount:Number,
