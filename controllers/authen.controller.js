@@ -30,7 +30,8 @@ exports.login = async (req, res) => {
     } else {
       CustomerModel.findOne({ tel: req.body.username })
         .then(cus => {
-          if (req.body.password == cus.tel) {
+          const password = cus.tel === cus.password ? cus.tel : cus.password
+          if (req.body.password == password) {
             const token = jwt.sign(
               { _id: cus._id, role: 'member' },
               process.env.JWT_SECRET,

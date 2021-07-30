@@ -24,7 +24,8 @@ const orderSchema = new mongoose.Schema({
       },
       price:Number,
       name:String,
-      qty: Number
+      qty: Number,
+      
     }
   ],
   total_price: Number,
@@ -33,6 +34,7 @@ const orderSchema = new mongoose.Schema({
     default: Date.now()
   },
   status: { type: Number, default: 0 },
+  status_cook: { type: Number, default: 0 },
   remark: String
 })
 

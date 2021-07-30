@@ -30,7 +30,7 @@ exports.addLevelMember = (req, res) => {
       const form = new formidable.IncomingForm()
       form.parse(req, async (err, fields, files) => {
         //console.log(fields)
-        let level = await LevelMemberModel.create(fields)
+        let level = await LevelMemberModel.create({...fields,datetime:Date.now()})
         level = await uploadImage(files, level)
         await addLog(req.user._id, `add level member -> ${level.level_name}`)
         res.status(CODE_COMPLETE).json({
@@ -51,7 +51,7 @@ exports.updateLevelMember = (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let level = await LevelMemberModel.findByIdAndUpdate(
         { _id: req.params.id },
-        fields
+        {...fields,datetime:Date.now()}
       )
       level = await uploadImage(files, level)
       await addLog(req.user._id, `update level member -> ${level.level_name}`)
