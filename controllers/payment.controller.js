@@ -8,25 +8,21 @@ const CustomerModel = require('./../models/customer.model')
 const { addPointByPayment } = require('./pointManage.controller')
 //const { addPointPayment } = require('./pointPayment.controller')
 
-
 exports.addPayment = async (req, res) => {
   const today = new Date()
-  if(parseInt(req.body.receive_money) < parseInt(req.body.net_price)){
+  if (parseInt(req.body.receive_money) < parseInt(req.body.net_price)) {
     res.status(CODE_WARNING).json({
-      message:"ยอดเงินที่รับมาไม่พอจ่ายค่าสินค้า"
+      message: 'ยอดเงินที่รับมาไม่พอจ่ายค่าสินค้า'
     })
     return
   }
- 
+
   const newPoint = Math.floor(req.body.total_price / 100) * 5
- 
 
   const point = await PointPaymentModel.create({
     ref_cus_id: req.body.ref_cus_id,
     point: newPoint
   })
-
-  
 
   let newPayment = {}
   if (req.body.type_payment === 'transfer') {
@@ -45,10 +41,10 @@ exports.addPayment = async (req, res) => {
       after_vat: req.body.after_vat,
       net_price: req.body.net_price,
       ref_point_pay_id: point.id,
-      invoice: `${today.getDate()}${today.getMonth() +
-        1}${today.getFullYear()}${Math.floor(
+      datetime:today,
+      invoice: `${today.getDate()}${(today.getMonth()+1) < 10 ? '0'+ (today.getMonth()+1) :(today.getMonth()+1) }${today.getFullYear()}${Math.floor(
         Math.random() * (999 - 100) + 100
-      )}${today.getSeconds()}`
+      )}${today.getMinutes() < 10 ?'0' + today.getMinutes():today.getMinutes()}`
     }
   } else {
     newPayment = {
@@ -65,10 +61,11 @@ exports.addPayment = async (req, res) => {
       after_vat: req.body.after_vat,
       net_price: req.body.net_price,
       ref_point_pay_id: point.id,
+      datetime:today,
       invoice: `${today.getDate()}${today.getMonth() +
         1}${today.getFullYear()}${Math.floor(
         Math.random() * (999 - 100) + 100
-      )}${today.getSeconds()}`
+      )}${today.getMinutes() < 10 ?'0' + today.getMinutes():today.getMinutes()}`
     }
   }
 
@@ -153,7 +150,7 @@ exports.deletePayment = (req, res) => {
 exports.allPayment = (req, res) => {
   PaymentModel.find()
     .populate('ref_order_id', 'order_no')
-    .populate('ref_emp_id', 'username')
+    .populate('ref_emp_id', 'username fname lname')
     .populate('ref_cus_id')
     .populate('ref_bank_id', 'bank_name')
     .populate('ref_point_pay_id', 'point')
@@ -194,7 +191,10 @@ exports.getPaymentByToday = (req, res) => {
 exports.getPaymentByMonth = (req, res) => {
   const today = new Date()
   PaymentModel.find({
-    datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()+','+today.getMonth()) }
+    datetime: {
+      $lt: new Date(),
+      $gt: new Date(today.getFullYear() + ',' + today.getMonth())
+    }
   })
     .populate('ref_order_id', 'type_order')
     .then(payment => {

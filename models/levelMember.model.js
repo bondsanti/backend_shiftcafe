@@ -10,7 +10,12 @@ const levelMemberSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    img:String
+    img:String,
+    target_price:Number,
+    datetime:{
+        type:Date,
+        default:Date.now()
+    }
 })
 
 module.exports = mongoose.model("level_member",levelMemberSchema)

@@ -37,7 +37,8 @@ exports.updateOrder = (req, res) => {
       list_product: req.body.list_product,
       type_order: req.body.type_order,
       total_price: req.body.total_price,
-      bill_name: req.body.bill_name
+      bill_name: req.body.bill_name,
+      status_cook:req.body.status_cook
     }
   )
     .then(async order => {
@@ -78,7 +79,7 @@ exports.allOrder = (req, res) => {
 }
 
 exports.holdOrder = (req, res) => {
-  OrderModel.find({status:0})
+  OrderModel.find({status:0}).populate('ref_emp_id','fname lname')
   .then(order => {
     res.status(CODE_COMPLETE).json(order)
   })
