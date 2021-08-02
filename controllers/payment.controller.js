@@ -95,28 +95,28 @@ exports.addPayment = async (req, res) => {
 }
 
 exports.updatePayment = (req, res) => {
-  let newPayment = {}
-  if (req.body.type_payment == 2) {
-    newPayment = {
-      ref_order_id: req.body.ref_order_id,
-      ref_emp_id: req.user._id,
-      ref_point_id: req.body.ref_point_id,
-      type_payment: req.body.type_payment,
-      ref_bank_id: req.body.ref_bank_id,
-      receive_money: req.body.receive_money,
-      withdraw_money: req.body.withdraw_money
-    }
-  } else {
-    newPayment = {
-      ref_order_id: req.body.ref_order_id,
-      ref_emp_id: req.user._id,
-      ref_point_id: req.body.ref_point_id,
-      type_payment: req.body.type_payment,
-      receive_money: req.body.receive_money,
-      withdraw_money: req.body.withdraw_money
-    }
-  }
-  PaymentModel.findByIdAndUpdate({ _id: req.params.id }, newPayment)
+  // let newPayment = {}
+  // if (req.body.type_payment == 2) {
+  //   newPayment = {
+  //     ref_order_id: req.body.ref_order_id,
+  //     ref_emp_id: req.user._id,
+  //     ref_point_id: req.body.ref_point_id,
+  //     type_payment: req.body.type_payment,
+  //     ref_bank_id: req.body.ref_bank_id,
+  //     receive_money: req.body.receive_money,
+  //     withdraw_money: req.body.withdraw_money
+  //   }
+  // } else {
+  //   newPayment = {
+  //     ref_order_id: req.body.ref_order_id,
+  //     ref_emp_id: req.user._id,
+  //     ref_point_id: req.body.ref_point_id,
+  //     type_payment: req.body.type_payment,
+  //     receive_money: req.body.receive_money,
+  //     withdraw_money: req.body.withdraw_money
+  //   }
+  // }
+  PaymentModel.findByIdAndUpdate({ _id: req.params.id }, {status:req.body.status})
     .then(async pay => {
       await addLog(req.user._id, `update payment id -> ${pay._id}`)
       res.status(CODE_COMPLETE).json({

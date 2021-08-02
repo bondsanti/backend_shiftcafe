@@ -79,7 +79,7 @@ exports.allOrder = (req, res) => {
 }
 
 exports.holdOrder = (req, res) => {
-  OrderModel.find({status:0}).populate('ref_emp_id','fname lname')
+  OrderModel.find({status:0}).sort({datetime: -1}).populate('ref_emp_id','fname lname')
   .then(order => {
     res.status(CODE_COMPLETE).json(order)
   })

@@ -48,7 +48,12 @@ const paymentSchema = new mongoose.Schema({
     datetime:{
         type:Date,
         default:Date.now()
-    }
+    },
+    status:{
+        type:Number,
+        required:true,
+        default:0
+    },
     
 })
 

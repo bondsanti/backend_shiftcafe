@@ -9,7 +9,8 @@ const bankSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    img:String
+    img:String,
+    img_cover:String,
 })
 
 module.exports = mongoose.model('Bank',bankSchema)

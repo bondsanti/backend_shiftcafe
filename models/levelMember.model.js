@@ -12,6 +12,7 @@ const levelMemberSchema = new mongoose.Schema({
     },
     img:String,
     target_price:Number,
+    detail:String,
     datetime:{
         type:Date,
         default:Date.now()
