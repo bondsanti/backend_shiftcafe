@@ -1,11 +1,15 @@
 const express = require('express')
 require('dotenv').config()
 const mongoose = require('mongoose')
+const morgan = require('morgan')
 //const mongoClient = require('mongodb').MongoClient
 const cors = require('cors')
 //const path = require('path')
 const cookieParser = require('cookie-parser')
+// const socketio = require('socket.io')
 const app = express()
+//app.use(morgan('combined'))
+// const ProductModel = require("./models/product.model")
 
 
 
@@ -47,12 +51,7 @@ const orderRoute = require('./routes/order.route')
 const paymentRoute = require('./routes/payment.route')
 //const pointPaymentRoute = require('./routes/pointPayment.route')
 const bankRoute = require('./routes/bank.route')
-
-app.get('/', (req, res) => {
-  res.send('BACKEND SHIFT CAFE')
-})
-
-
+const settingRoute = require('./routes/setting.route')
 
 app.use('/api', roleRoute)
 app.use('/api', employeeRoute)
@@ -70,9 +69,23 @@ app.use('/api', orderRoute)
 app.use('/api', paymentRoute)
 //app.use('/api', pointPaymentRoute)
 app.use('/api',bankRoute)
+app.use('/api',settingRoute)
+app.get('*', (req, res) => {
+  res.send("<h1>BACKEND SHIFT CAFE</h1>")
+})
 
-app.listen(process.env.PORT, process.env.IP_ADDRESS, () => {
+ const server = app.listen(process.env.PORT, process.env.IP_ADDRESS, (error) => {
+  if (error) throw error;
   console.log(
     `server is running on IP ${process.env.IP_ADDRESS} and PORT ${process.env.PORT}`
   )
 })
+
+// const io = socketio(server)
+
+// io.on('connection',(socket)=>{
+//   console.log("client")
+//   ProductModel.find().then((res)=>{
+//     socket.emit('output-messages', res)
+//   })
+// })
