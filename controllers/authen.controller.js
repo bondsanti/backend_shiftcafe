@@ -1,6 +1,8 @@
 const EmployeeModel = require('./../models/employee.model')
 const CustomerModel = require('./../models/customer.model')
 const jwt = require('jsonwebtoken')
+const thaibulksmsApi = require('thaibulksms-api')
+const { CODE_COMPLETE, CODE_WARNING } = require('../instant')
 
 exports.login = async (req, res) => {
   
@@ -99,4 +101,37 @@ exports.getUser = async (req, res) => {
       res.status(200).json({ user: cusUser })
     })
   }
+}
+
+const options = {
+  apiKey: process.env.API_KEY,
+  apiSecret: process.env.API_SECRET,
+}
+const otp = thaibulksmsApi.otp(options)
+
+exports.requestOTP = (req,res)=>{
+  otp.request(req.body.tel).then((response)=>{
+    res.status(CODE_COMPLETE).json(response.data)
+  }).catch((e)=>{
+    res.status(CODE_WARNING).json({
+      message:"send otp uncomplete",
+      error:e
+    })
+  })
+}
+
+exports.verifyOTP = (req,res,next)=>{
+ 
+  otp.verify(req.body.verify,req.body.code)
+  .then((response)=>{
+    //res.status(CODE_COMPLETE).json(response)
+    //console.log(response.data)
+    next()
+  })
+  .catch((e)=>{
+    res.status(CODE_WARNING).json({
+      message:"verify otp uncomplete",
+      error:e
+    })
+  })
 }

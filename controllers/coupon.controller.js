@@ -7,7 +7,8 @@ exports.addCoupon = (req,res)=>{
         codename:req.body.codename,
         ref_emp_id_by:req.user._id,
         ref_emp_id:req.body.ref_emp_id,
-        exp:req.body.exp,
+        start:req.body.start,
+        end:req.body.end,
         discount:req.body.discount,
         num_use:req.body.num_use,
     }).then(async coupon=>{
@@ -28,9 +29,11 @@ exports.updateCoupon = (req,res)=>{
         codename:req.body.codename,
         ref_emp_id_by:req.user._id,
         ref_emp_id:req.body.ref_emp_id,
-        exp:req.body.exp,
+        start:req.body.start,
+        end:req.body.end,
         discount:req.body.discount,
         num_use:req.body.num_use,
+        status:req.body.status,
     }).then(async coupon=>{
         await addLog(req.user._id,`update coupon CODE => ${coupon.codename}`)
         res.status(CODE_COMPLETE).json({
@@ -60,7 +63,16 @@ exports.deleteCoupon = (req,res)=>{
 }
 
 exports.allCoupon = (req,res)=>{
-    CouponModel.find().then(coupon=>{
+    CouponModel.find()
+    .populate('ref_emp_id','fname lname')
+    .populate('ref_emp_id_by','fname lname')
+    .then(coupon=>{
         res.status(CODE_COMPLETE).json(coupon)
+    })
+}
+
+exports.getCouponByCodename = (req,res)=>{
+    CouponModel.find({codename:req.params.codename}).then((c)=>{
+        res.status(CODE_COMPLETE).json(c)
     })
 }

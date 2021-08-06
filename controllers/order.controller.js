@@ -11,7 +11,7 @@ exports.addOrder = (req, res) => {
     type_order: req.body.type_order,
     total_price: req.body.total_price,
     bill_name: req.body.bill_name,
-    order_no:`${today.getFullYear()+543}${today.getMonth()+1}${today.getDate()}${Math.floor(Math.random() * (999 - 100) + 100)}${today.getSeconds()}`,
+    order_no:`${today.getFullYear()+543}${(today.getMonth()+1)<10?'0'+today.getMonth()+1 : today.getMonth()+1}${today.getDate() < 10 ? '0'+today.getDate():today.getDate() }${Math.floor(Math.random() * (999 - 100) + 100)}${today.getSeconds()}`,
     datetime:today
   })
     .then(async order => {

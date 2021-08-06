@@ -4,6 +4,6 @@ const { requireLogin } = require('../middleware')
 const router = express.Router()
 router.post('/setting',requireLogin,addSetting)
 router.put('/setting/:id',requireLogin,updateSetting)
-router.get('/setting',requireLogin,allSetting)
+router.get('/setting',allSetting)
 
 module.exports = router
