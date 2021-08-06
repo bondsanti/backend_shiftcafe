@@ -18,8 +18,10 @@
     "mongodb": "^3.6.9",
     "mongoose": "^5.13.1",
     "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
     "pm2": "^5.1.0",
-    "socket.io": "^4.1.3"
+    "socket.io": "^4.1.3",
+    "thaibulksms-api": "^1.0.7"
   },
   "scripts": {
     "dev": "nodemon index.js"

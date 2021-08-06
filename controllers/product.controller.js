@@ -49,7 +49,7 @@ exports.updateProduct = (req, res) => {
   try {
     const form = new formidable.IncomingForm()
     form.parse(req, async (err, fields, files) => {
-      console.log(fields)
+      //console.log(fields)
       let product = await productModel.findOneAndUpdate(
         { _id: req.params.id },
         fields

@@ -2,6 +2,7 @@ const { addLog } = require("./addLog.controller");
 const { CODE_COMPLETE, CODE_WARNING, CODE_ERROR } = require("../instant");
 const pointManageModel = require("./../models/pointManage.model");
 const customerModel = require("./../models/customer.model");
+const CouponModel = require("./../models/coupon.model")
 
 exports.addPointManage = async (req, res) => {
   if (req.body.status === "plus") {
@@ -81,7 +82,15 @@ exports.allPointManageByCustomerId = (req, res) => {
   });
 };
 
-exports.addPointByPayment = async (cus_id, new_point, emp_id) => {
+exports.addPointByPayment = async (cus_id, new_point, emp_id,coupon_id) => {
+  if(coupon_id !== null){
+   CouponModel.findById({_id:coupon_id}).then(async(c)=>{
+    if(c.num_use !== 0){
+      const new_num_use = c.num_use - 1
+      await CouponModel.findByIdAndUpdate({_id:coupon_id},{num_use:new_num_use})
+    }
+   })
+  }
   const cus = await customerModel.findById({ _id: cus_id });
   const newPoint = cus.point + parseInt(new_point);
   await customerModel.findOneAndUpdate({ _id: cus._id }, { point: newPoint });

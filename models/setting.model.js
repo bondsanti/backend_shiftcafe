@@ -21,6 +21,10 @@ const settingSchema = new mongoose.Schema({
   },
   point: {
     type: Number,
+    default: 5
+  },
+  price_buy: {
+    type: Number,
     default: 100
   },
   footer: {

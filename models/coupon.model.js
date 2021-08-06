@@ -13,7 +13,11 @@ const couponSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'
   },
-  exp: {
+  start: {
+    type: Date,
+    required: true
+  },
+  end: {
     type: Date,
     required: true
   },
@@ -23,6 +27,10 @@ const couponSchema = new mongoose.Schema({
   },
   num_use: {
     type: Number
+  },
+  status:{
+    type:Number,
+    default:0
   }
 })
 
