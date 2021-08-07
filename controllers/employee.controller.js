@@ -39,10 +39,7 @@ exports.addEmployee = async (req, res) => {
   newEmployee
     .save()
     .then(async emp => {
-     await addLog(
-        req.user._id,
-        `add new employee ${emp.fname} ${emp.lname}`
-      )
+      await addLog(req.user._id, `add new employee ${emp.fname} ${emp.lname}`)
       res.status(CODE_COMPLETE).json({
         message: 'add employee complete'
       })
@@ -70,28 +67,40 @@ exports.updateEmployee = async (req, res) => {
     address
   } = req.body
 
-  const hashPassword = await bcrypt.hash(password, 10)
-
-  const newEmpObj = {
-    username: username,
-    password: hashPassword,
-    ref_id_role: ref_id_role,
-    idcard: idcard,
-    pname: pname,
-    fname: fname,
-    lname: lname,
-    birthday: birthday,
-    tel: tel,
-    email: email,
-    address: address
+  let newEmpObj = {}
+  if (password) {
+    const hashPassword = await bcrypt.hash(password, 10)
+    newEmpObj = {
+      username: username,
+      password: hashPassword,
+      ref_id_role: ref_id_role,
+      idcard: idcard,
+      pname: pname,
+      fname: fname,
+      lname: lname,
+      birthday: new Date(birthday),
+      tel: tel,
+      email: email,
+      address: address
+    }
+  } else {
+    newEmpObj = {
+      username: username,
+      ref_id_role: ref_id_role,
+      idcard: idcard,
+      pname: pname,
+      fname: fname,
+      lname: lname,
+      birthday: new Date(birthday),
+      tel: tel,
+      email: email,
+      address: address
+    }
   }
 
   EmployeeModel.findByIdAndUpdate({ _id: req.params.id }, newEmpObj)
     .then(async emp => {
-     await addLog(
-        req.user._id,
-        `update employee => ${emp.fname} ${emp.lname}`
-      )
+      await addLog(req.user._id, `update employee => ${emp.fname} ${emp.lname}`)
 
       res.status(CODE_COMPLETE).json({
         message: 'update employee complete'
@@ -105,14 +114,13 @@ exports.updateEmployee = async (req, res) => {
     })
 }
 
-exports.allEmployee = async(req, res) => {
+exports.allEmployee = async (req, res) => {
   EmployeeModel.find()
     .populate('ref_id_role')
     .then(Emp => {
-      let emp2 = Emp.filter(em => em.ref_id_role.position !== "admin") 
+      let emp2 = Emp.filter(em => em.ref_id_role.position !== 'admin')
       res.status(CODE_COMPLETE).json(Emp)
     })
-
 }
 
 exports.deleteEmployee = (req, res) => {
@@ -122,7 +130,7 @@ exports.deleteEmployee = (req, res) => {
   if (id) {
     EmployeeModel.findOneAndDelete({ _id: id })
       .then(async emp => {
-       await addLog(
+        await addLog(
           req.user._id,
           `delete employee => ${emp.fname} ${emp.lname}`
         )
@@ -143,10 +151,8 @@ exports.deleteEmployee = (req, res) => {
   }
 }
 
-exports.getEmployeeByUsername = async(req, res) => {
-  EmployeeModel.find({username:req.params.username})
-    .then(Emp => {
-      res.status(CODE_COMPLETE).json(Emp)
-    })
-
+exports.getEmployeeByUsername = async (req, res) => {
+  EmployeeModel.find({ username: req.params.username }).then(Emp => {
+    res.status(CODE_COMPLETE).json(Emp)
+  })
 }
