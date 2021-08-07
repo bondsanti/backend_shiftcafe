@@ -32,9 +32,10 @@ mongoose.connect(process.env.DB_URL_PRODUCTION,{
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.set('view engine', 'ejs');
-app.use(cors({
-  origin:['https://shift-cafe.com','http://192.168.1.55:3000','http://192.168.1.35:3000','http://192.168.1.15:3000']
-}))
+// app.use(cors({
+//   origin:['https://shift-cafe.com','http://192.168.1.55:3000','http://192.168.1.35:3000','http://192.168.1.15:3000']
+// }))
+app.use(cors())
 app.use(express.static(__dirname + '/upload'))
 app.use(cookieParser())
 
