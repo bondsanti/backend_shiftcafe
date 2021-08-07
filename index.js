@@ -31,7 +31,10 @@ mongoose.connect(process.env.DB_URL_PRODUCTION,{
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors())
+app.set('view engine', 'ejs');
+app.use(cors({
+  origin:['https://shift-cafe.com','http://192.168.1.55:3000','http://192.168.1.35:3000','http://192.168.1.15:3000']
+}))
 app.use(express.static(__dirname + '/upload'))
 app.use(cookieParser())
 
@@ -71,7 +74,7 @@ app.use('/api', paymentRoute)
 app.use('/api',bankRoute)
 app.use('/api',settingRoute)
 app.get('*', (req, res) => {
-  res.send("<h1>BACKEND SHIFT CAFE</h1>")
+  res.render('index')
 })
 
  const server = app.listen(process.env.PORT, process.env.IP_ADDRESS, (error) => {
