@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const today = new Date()
 const customerSchema = new mongoose.Schema({
     pname:{
         type:String,
@@ -33,7 +33,7 @@ const customerSchema = new mongoose.Schema({
     ref_level_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'level_member',
-        required:true 
+        //required:true 
     },
     point:{
         type:Number,
@@ -47,7 +47,11 @@ const customerSchema = new mongoose.Schema({
 
     datetime:{
         type:Date,
-        default:Date.now() 
+        default:today 
+    },
+    mission:{
+        start:{type:Date,default:today},
+        end:{type:Date,default:new Date(today.getFullYear()+1,today.getMonth(),today.getDate())}
     }
 })
 

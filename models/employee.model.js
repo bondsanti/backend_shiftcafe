@@ -37,7 +37,7 @@ const employeeSchema = new mongoose.Schema({
     required: true
   },
   tel:{
-      type:Number,
+      type:String,
       require:true
   },
   email:{
