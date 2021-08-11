@@ -10,7 +10,7 @@ const settingSchema = new mongoose.Schema({
     type: String,
     default: 'บริษัท ซิฟท์ เรสเตอรองต์ จำกัด'
   },
-  logo: String,
+  logo: {type:String,default:'logo.ico'},
   address: {
     type: String,
     default: '89/1 ถนนสุขสวัสดิ์ 4 ตำบลพระบาท อำเภอเมือง จังหวัดลำปาง 52000'

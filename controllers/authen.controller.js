@@ -5,17 +5,36 @@ const thaibulksmsApi = require('thaibulksms-api')
 const { CODE_COMPLETE, CODE_WARNING } = require('../instant')
 
 exports.login = async (req, res) => {
-  
-
   try {
     const emp = await EmployeeModel.findOne({ username: req.body.username })
     if (emp !== null) {
-      if (emp.authenticate(req.body.password)) {
+      if(req.body.type === 0){
+
+        if (emp.authenticate(req.body.password)) {
+          const token = jwt.sign(
+            { _id: emp._id, role: emp.ref_id_role },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: '15d'
+            }
+          )
+  
+          res.cookie('token', token, { expiresIn: '15d' })
+          res.status(200).json({
+            token,
+            message: 'login complete'
+          })
+        } else {
+          res.status(201).json({
+            message: 'Invalid password'
+          })
+        }
+      }else{
         const token = jwt.sign(
           { _id: emp._id, role: emp.ref_id_role },
           process.env.JWT_SECRET,
           {
-            expiresIn: '15d'
+            expiresIn: '1d'
           }
         )
 
@@ -23,10 +42,6 @@ exports.login = async (req, res) => {
         res.status(200).json({
           token,
           message: 'login complete'
-        })
-      } else {
-        res.status(201).json({
-          message: 'Invalid password'
         })
       }
     } else {
@@ -63,8 +78,6 @@ exports.login = async (req, res) => {
   } catch (e) {
     console.log(e)
   }
-
-  
 }
 
 exports.logout = (req, res) => {
@@ -75,8 +88,6 @@ exports.logout = (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-  
-
   const emp = await EmployeeModel.findById({ _id: req.user._id }).populate(
     'ref_id_role'
   )
@@ -105,33 +116,36 @@ exports.getUser = async (req, res) => {
 
 const options = {
   apiKey: process.env.API_KEY,
-  apiSecret: process.env.API_SECRET,
+  apiSecret: process.env.API_SECRET
 }
 const otp = thaibulksmsApi.otp(options)
 
-exports.requestOTP = (req,res)=>{
-  otp.request(req.body.tel).then((response)=>{
-    res.status(CODE_COMPLETE).json(response.data)
-  }).catch((e)=>{
-    res.status(CODE_WARNING).json({
-      message:"send otp uncomplete",
-      error:e
+exports.requestOTP = (req, res) => {
+  otp
+    .request(req.body.tel)
+    .then(response => {
+      res.status(CODE_COMPLETE).json(response.data)
     })
-  })
+    .catch(e => {
+      res.status(CODE_WARNING).json({
+        message: 'send otp uncomplete',
+        error: e
+      })
+    })
 }
 
-exports.verifyOTP = (req,res,next)=>{
- 
-  otp.verify(req.body.verify,req.body.code)
-  .then((response)=>{
-    //res.status(CODE_COMPLETE).json(response)
-    //console.log(response.data)
-    next()
-  })
-  .catch((e)=>{
-    res.status(CODE_WARNING).json({
-      message:"verify otp uncomplete",
-      error:e
+exports.verifyOTP = (req, res) => {
+  otp
+    .verify(req.body.verify, req.body.code)
+    .then(response => {
+      res.status(CODE_COMPLETE).json(response)
+      //console.log(response.data)
+      //next()
     })
-  })
+    .catch(e => {
+      res.status(CODE_WARNING).json({
+        message: 'verify otp uncomplete',
+        error: e
+      })
+    })
 }

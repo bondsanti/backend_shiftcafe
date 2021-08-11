@@ -7,6 +7,7 @@ const CouponModel = require('./../models/coupon.model')
 const SettingModel = require("./../models/setting.model")
 //const PointManageModel = require('./../models/pointManage.model')
 const { addPointByPayment } = require('./pointManage.controller')
+const { checkAndUpdateLevelMember2 } = require('./customer.controller')
 
 
 //const { addPointPayment } = require('./pointPayment.controller')
@@ -66,6 +67,7 @@ exports.addPayment = async (req, res) => {
   PaymentModel.create(newPayment)
     .then(async pay => {
       await addLog(req.user._id, `add payment id -> ${pay._id}`)
+     await checkAndUpdateLevelMember2(req.body.ref_cus_id)
       // 2.add point customer 3.minus num_use at coupon model
       await addPointByPayment(req.body.ref_cus_id, newPoint, req.user._id,req.body.coupon_id)
       if(req.body.ref_order_id === 'no'){
