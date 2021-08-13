@@ -68,6 +68,21 @@ exports.updateProduct = (req, res) => {
   }
 }
 
+exports.toppingProduct = (req,res)=>{
+  productModel.findByIdAndUpdate({_id:req.params.id},{
+    topping:req.body.topping
+  }).then(()=>{
+    res.status(CODE_COMPLETE).json({
+      message: 'บันทึก TOPPING สำเร็จ'
+    })
+  }).catch((e)=>{
+    res.status(CODE_WARNING).json({
+      message: 'บันทึก TOPPING ไม่สำเร็จ',
+      error: e
+    })
+  })
+}
+
 exports.updateProduct2 = async (req, res) => {
   try {
     await productModel.findOneAndUpdate(

@@ -1,9 +1,10 @@
 const express = require('express')
-const { addProduct, updateProduct, deleteProduct, allProduct, showProduct, updateProduct2 } = require('../controllers/product.controller')
+const { addProduct, updateProduct, deleteProduct, allProduct, showProduct, updateProduct2, toppingProduct } = require('../controllers/product.controller')
 const { requireLogin } = require('../middleware')
 const router = express.Router()
 
 router.post('/product',requireLogin,addProduct)
+router.post('/product-topping/:id',requireLogin,toppingProduct)
 router.put('/product/:id',requireLogin,updateProduct)
 router.put('/product2/:id',requireLogin,updateProduct2)
 router.delete('/product/:id',requireLogin,deleteProduct)
