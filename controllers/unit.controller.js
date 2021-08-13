@@ -12,7 +12,7 @@ exports.addUnit = (req,res)=>{
     newUnit.save(async(err, unit) => {
       if (err) {
         res.status(CODE_WARNING).json({
-          message: 'Somthing went wrong',
+          message: 'เพิ่มประเภทอาหารไม่สำเร็จ',
           error: err
         })
       }
@@ -20,7 +20,7 @@ exports.addUnit = (req,res)=>{
       if (unit) {
        await addLog(req.user._id, `add unit ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
-          massage: 'add unit complete'
+          message: 'เพิ่มประเภทอาหารสำเร็จ'
         })
       }
     })
