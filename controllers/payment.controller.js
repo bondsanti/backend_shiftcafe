@@ -124,12 +124,12 @@ exports.updatePayment = (req, res) => {
     .then(async pay => {
       await addLog(req.user._id, `update payment id -> ${pay._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'update payment complete'
+        message: 'แก้ไขข้อมูลการชำระเงินสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'update payment uncomplete',
+        message: 'แก้ไขข้อมูลการชำระเงินไม่สำเร็จ',
         error: e
       })
     })
