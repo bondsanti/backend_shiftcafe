@@ -33,12 +33,12 @@ exports.addCategory = (req,res)=>{
           cate = await uploadImage(files, cate)
           await addLog(req.user._id, `add category ${cate.cate_name}`)
           res.status(CODE_COMPLETE).json({
-            message: 'add category complete'
+            message: 'เพิ่มหมวดหมู่เสร็จสมบูรณ์'
           })
         })
       } catch (e) {
         res.status(CODE_WARNING).json({
-          message: 'add category uncomplete',
+          message: 'เพิ่มหมวดหมู่ที่ไม่สมบูรณ์',
           error: e
         })
       }
@@ -55,12 +55,12 @@ exports.updateCategory = (req,res)=>{
           cate = await uploadImage(files, cate)
           await addLog(req.user._id, `update category -> ${cate.cate_name}`)
           res.status(CODE_COMPLETE).json({
-            message: 'update category complete'
+            message: 'อัพเดทหมวดหมู่เสร็จสมบูรณ์'
           })
         })
       } catch (e) {
         res.status(CODE_WARNING).json({
-          message: 'update category uncomplete',
+          message: 'อัพเดทหมวดหมู่ไม่สมบูรณ์',
           error: e
         })
       }
@@ -70,11 +70,11 @@ exports.deleteCategory = (req,res)=>{
     CategoryModel.findByIdAndDelete({_id:req.params.id}).then(async(cate)=>{
        await addLog('60dff0bf708d771ce8b1c7c1', `delete category => ${cate.cate_name}`)
           res.status(CODE_COMPLETE).json({
-              message:"delete category complete"
+              message:"ลบหมวดหมู่เสร็จสมบูรณ์"
           })
     }).catch((e)=>{
         res.status(CODE_WARNING).json({
-            message:"delete category uncomplete"
+            message:"ลบหมวดหมู่ไม่สมบูรณ์"
         })
     })
 }

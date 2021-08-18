@@ -25,11 +25,11 @@ exports.addPointManage = async (req, res) => {
         `${pointManage.status} ${pointManage.point} point where customer id = ${pointManage.ref_cus_id} || point by SYSTEM`
       );
       res.status(CODE_COMPLETE).json({
-        message: `plus ${pointManage.point} point complete`,
+        message: `เพิ่ม ${pointManage.point} แต้ม เสร็จสมบูรณ์`,
       });
     } catch (e) {
       res.status(CODE_WARNING).json({
-        message: `plus ${pointManage.point} point uncomplete`,
+        message: `เพิ่ม ${pointManage.point} แต้ม ไม่สมบูรณ์`,
         error: e,
       });
     }
@@ -54,17 +54,17 @@ exports.addPointManage = async (req, res) => {
           `${req.body.status} ${req.body.point} point where customer id = ${req.body.ref_cus_id} || point by SYSTEM`
         );
         res.status(CODE_COMPLETE).json({
-          message: `minus ${req.body.point} point complete`,
+          message: `ลบ ${req.body.point} แต้ม เสร็จสมบูรณ์`,
         });
       } catch (e) {
         res.status(CODE_WARNING).json({
-          message: `minus ${req.body.point} point uncomplete`,
+          message: `ลบ ${req.body.point} แต้ม ไม่สมบูรณ์`,
           error: e,
         });
       }
     } else {
       res.status(CODE_WARNING).json({
-        message: `your point not enough to minus `,
+        message: `แต้มของคุณไม่พอที่จะลบ`,
       });
     }
   }

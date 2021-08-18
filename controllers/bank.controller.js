@@ -66,12 +66,12 @@ exports.addBank = (req, res) => {
       bank = await uploadImage(files, bank)
       await addLog(req.user._id, `add new bank -> ${bank.bank_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add bank complete'
+        message: 'เพิ่มธนาคารเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'add bank uncomplete',
+      message: 'เพิ่มรายการธนาคารไม่เสร็จ',
       error: e
     })
   }
@@ -90,12 +90,12 @@ exports.updateBank = (req, res) => {
 
       await addLog(req.user._id, `update bank -> ${bank.bank_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'update bank complete'
+        message: 'อัปเดตธนาคารเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'update bank uncomplete',
+      message: 'การปรับปรุงธนาคารยังไม่สมบูรณ์',
       error: e
     })
   }
@@ -112,12 +112,12 @@ exports.deleteBank = (req, res) => {
       }
       await addLog(req.user._id, `delete bank id -> ${bank._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'delete bank complete'
+        message: 'ลบธนาคารเสร็จสิ้น'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'delete bank uncomplete',
+        message: 'ลบธนาคารไม่สมบูรณ์',
         error: e
       })
     })

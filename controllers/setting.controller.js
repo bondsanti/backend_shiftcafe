@@ -33,12 +33,12 @@ exports.addSetting = (req,res)=>{
           setting = await uploadImage(files, setting)
           await addLog(req.user._id, `add setting -> ${setting.head_title}`)
           res.status(CODE_COMPLETE).json({
-            message: 'add setting complete'
+            message: 'เพิ่มการตั้งค่าเสร็จสมบูรณ์'
           })
         })
       } catch (e) {
         res.status(CODE_WARNING).json({
-          message: 'add setting uncomplete',
+          message: 'เพิ่มการตั้งค่าที่ไม่สมบูรณ์',
           error: e
         })
       }
@@ -53,12 +53,12 @@ exports.updateSetting = (req,res)=>{
           setting = await uploadImage(files, setting)
           await addLog(req.user._id, `update setting -> ${setting.head_title}`)
           res.status(CODE_COMPLETE).json({
-            message: 'update setting complete'
+            message: 'อัปเดตการตั้งค่าเสร็จสมบูรณ์'
           })
         })
       } catch (e) {
         res.status(CODE_WARNING).json({
-          message: 'update setting uncomplete',
+          message: 'อัปเดตการตั้งค่าไม่สมบูรณ์',
           error: e
         })
       }

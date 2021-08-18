@@ -140,12 +140,12 @@ exports.deletePayment = (req, res) => {
     .then(async pay => {
       await addLog(req.user._id, `delete payment id -> ${pay._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'delete payment complete'
+        message: 'ลบการชำระเงินเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'delete payment uncomplete',
+        message: 'ลบการชำระเงินที่ยังไม่เสร็จสมบูรณ์',
         error: e
       })
     })
