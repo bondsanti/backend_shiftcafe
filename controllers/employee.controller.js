@@ -41,12 +41,12 @@ exports.addEmployee = async (req, res) => {
     .then(async emp => {
       await addLog(req.user._id, `add new employee ${emp.fname} ${emp.lname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add employee complete'
+        message: 'เพิ่มพนักงานเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'add employee uncomplete',
+        message: 'เพิ่มพนักงานไม่สมบูรณ์',
         error: e
       })
     })
@@ -103,12 +103,12 @@ exports.updateEmployee = async (req, res) => {
       await addLog(req.user._id, `update employee => ${emp.fname} ${emp.lname}`)
 
       res.status(CODE_COMPLETE).json({
-        message: 'update employee complete'
+        message: 'อัพเดตพนักงานเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'update employee uncomplete',
+        message: 'อัพเดตพนักงานไม่สมบูรณ์',
         error: e
       })
     })
@@ -135,18 +135,18 @@ exports.deleteEmployee = (req, res) => {
           `delete employee => ${emp.fname} ${emp.lname}`
         )
         res.status(CODE_COMPLETE).json({
-          message: 'delete employee complete'
+          message: 'ลบพนักงานเสร็จสมบูรณ์'
         })
       })
       .catch(e => {
         res.status(CODE_WARNING).json({
-          message: 'delete employee uncomplete',
+          message: 'ลบพนักงานไม่สมบูรณ์',
           error: e
         })
       })
   } else {
     res.status(CODE_WARNING).json({
-      message: 'id is undefinded'
+      message: 'ไม่พบ ID'
     })
   }
 }

@@ -22,11 +22,11 @@ exports.login = async (req, res) => {
           res.cookie('token', token, { expiresIn: '15d' })
           res.status(200).json({
             token,
-            message: 'login complete'
+            message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
           })
         } else {
           res.status(201).json({
-            message: 'Invalid password'
+            message: 'รหัสผ่านไม่ถูกต้อง'
           })
         }
       }else{
@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
         res.cookie('token', token, { expiresIn: '15d' })
         res.status(200).json({
           token,
-          message: 'login complete'
+          message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
         })
       }
     } else {
@@ -60,17 +60,17 @@ exports.login = async (req, res) => {
             res.cookie('token', token, { expiresIn: '15d' })
             res.status(200).json({
               token,
-              message: 'login complete'
+              message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
             })
           } else {
             res.status(201).json({
-              message: 'Incorrect password'
+              message: 'รหัสผ่านผิดพลาด'
             })
           }
         })
         .catch(e => {
           res.status(201).json({
-            message: 'username not found',
+            message: 'ไม่พบชื่อผู้ใช้',
             error: e
           })
         })
@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   res.clearCookie('token')
   res.status(200).json({
-    message: 'Logout successfully'
+    message: 'ออกจากระบบเรียบร้อยแล้ว'
   })
 }
 
@@ -128,7 +128,7 @@ exports.requestOTP = (req, res) => {
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'send otp uncomplete',
+        message: 'ส่ง OTP ที่ยังไม่เสร็จ',
         error: e
       })
     })
@@ -144,7 +144,7 @@ exports.verifyOTP = (req, res) => {
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'verify otp uncomplete',
+        message: 'ตรวจสอบ OTP ไม่สมบูรณ์',
         error: e
       })
     })

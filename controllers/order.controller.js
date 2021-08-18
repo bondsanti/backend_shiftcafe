@@ -17,13 +17,13 @@ exports.addOrder = (req, res) => {
     .then(async order => {
       await addLog(req.user._id, `add order id = ${order._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add order complete',
+        message: 'เพิ่มคำสั่งซื้อเสร็จสมบูรณ์',
         data:order
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'add order uncomplete',
+        message: 'เพิ่มคำสั่งซื้อที่ไม่สมบูรณ์',
         error: e
       })
     })
@@ -44,12 +44,12 @@ exports.updateOrder = (req, res) => {
     .then(async order => {
       await addLog(req.user._id, `update order id = ${order._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'update order complete'
+        message: 'อัปเดตคำสั่งซื้อเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'update order uncomplete',
+        message: 'อัปเดตคำสั่งซื้อไม่สมบูรณ์',
         error: e
       })
     })
@@ -60,12 +60,12 @@ exports.deleteOrder = (req, res) => {
     .then(async order => {
       await addLog(req.user._id, `delete order id = ${order._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'delete order complete'
+        message: 'ลบคำสั่งซื้อเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'delete order uncomplete',
+        message: 'ลบคำสั่งที่ยังไม่เสร็จสมบูรณ์',
         error: e
       })
     })

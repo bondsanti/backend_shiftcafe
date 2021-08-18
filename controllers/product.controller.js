@@ -34,12 +34,12 @@ exports.addProduct = (req, res) => {
       product = await uploadImage(files, product)
       await addLog(req.user._id, `add product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add product complete'
+        message: 'เพิ่มสิ้นค้าเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'add product uncomplete',
+      message: 'เพิ่มสิ้นค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -57,12 +57,12 @@ exports.updateProduct = (req, res) => {
       product = await uploadImage(files, product)
       await addLog(req.user._id, `update product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'update product complete'
+        message: 'อัพเดตสิ้นค้าเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'update product uncomplete',
+      message: 'อัพเดตสิ้นค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -73,11 +73,11 @@ exports.toppingProduct = (req,res)=>{
     topping:req.body.topping
   }).then(()=>{
     res.status(CODE_COMPLETE).json({
-      message: 'บันทึก TOPPING สำเร็จ'
+      message: 'บันทึก ท็อปปิ้ง สำเร็จ'
     })
   }).catch((e)=>{
     res.status(CODE_WARNING).json({
-      message: 'บันทึก TOPPING ไม่สำเร็จ',
+      message: 'บันทึก ท็อปปิ้ง ไม่สำเร็จ',
       error: e
     })
   })
@@ -90,11 +90,11 @@ exports.updateProduct2 = async (req, res) => {
       { status: req.body.status }
     )
     res.status(CODE_COMPLETE).json({
-      message: 'update product complete'
+      message: 'อัพเดตสิ้นค้าเสร็จสมบูรณ์'
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'update product uncomplete',
+      message: 'อัพเดตสิ้นค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -109,12 +109,12 @@ exports.deleteProduct = (req, res) => {
       }
       await addLog(req.user._id, `delete product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'delete product complete'
+        message: 'ลบสิ้นค้าเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'delete product uncomplete',
+        message: 'ลบสิ้นค้าไม่สมบูรณ์',
         error: e
       })
     })

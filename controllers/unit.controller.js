@@ -32,11 +32,11 @@ exports.updateUnit = (req,res)=>{
     UnitModel.findByIdAndUpdate({_id:req.params.id},{u_name:u_name}).then(async(unit)=>{
        await addLog(req.user._id, `update unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
-            message:"update unit complete"
+            message:"อัพเดตประเภทอาหารสำเร็จ"
         })
     }).catch((e)=>{
         res.status(CODE_WARNING).json({
-            message:"update unit uncomplete",
+            message:"อัพเดตประเภทอาหารไม่สำเร็จ",
             error:e
         })
     })
@@ -48,11 +48,11 @@ exports.deleteUnit = async(req,res)=>{
        const unit = await UnitModel.findOneAndDelete({_id:req.params.id})
       await addLog(req.user._id, `delete unit => ${unit.u_name}`)
         res.status(CODE_COMPLETE).json({
-            message:"delete unit complete"
+            message:"ลบประเภทอาหารสำเร็จ"
         })
     }catch(e){
         res.status(CODE_WARNING).json({
-            message:"delete unit uncomplete",
+            message:"ลบประเภทอาหารไม่สำเร็จ",
             error:e
         })
     }

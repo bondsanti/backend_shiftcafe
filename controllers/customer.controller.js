@@ -23,12 +23,12 @@ exports.addCustomer = (req, res) => {
     .then(async cus => {
       await addLog(req.user._id, `add customer => ${cus.fname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'add customer complete'
+        message: 'เพิ่มลูกค้าเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'add customer uncomplete',
+        message: 'เพิ่มลูกค้าไม่สมบูรณ์',
         error: e
       })
     })
@@ -54,12 +54,12 @@ exports.updateCustomer = (req, res) => {
     .then(async cus => {
       await addLog(req.user._id, `update customer => ${cus.fname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'update customer complete'
+        message: 'อัพเดตลูกค้าเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'update customer uncomplete',
+        message: 'อัพเดตลูกค้าไม่สมบูรณ์',
         error: e
       })
     })
@@ -71,12 +71,12 @@ exports.deleteCustomer = (req, res) => {
     .then(async cus => {
       await addLog(req.user._id, `delete customer => ${cus.fname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'delete customer complete'
+        message: 'ลบลูกค้าเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'delete customer uncomplete',
+        message: 'ลบลูกค้าไม่สมบูรณ์',
         error: e
       })
     })
@@ -118,7 +118,7 @@ exports.getCustomerByTel = (req, res) => {
 exports.checkAndUpdateLevelMember = async(req,res)=>{
   
   await checkPayment(req.params.id)
-  res.status(CODE_COMPLETE).json({message:"เช็คการปรับระดับสมาชิกสำเร็๗"})
+  res.status(CODE_COMPLETE).json({message:"เช็คการปรับระดับสมาชิกสำเร็จ"})
  
 }
 
