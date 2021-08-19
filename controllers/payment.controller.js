@@ -208,9 +208,7 @@ exports.getPaymentById = (req, res) => {
 
 exports.getPaymentByYear = (req, res) => {
   const today = new Date()
-  PaymentModel.find({
-    datetime: { $lt: new Date(), $gt: new Date(today.getFullYear()) }
-  })
+  PaymentModel.find()
     .populate({
       path: 'ref_order_id',model: 'Order',
       populate: {path: 'list_product.ref_pro_id',model: 'Product'}

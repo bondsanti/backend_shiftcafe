@@ -162,7 +162,7 @@ const checkPayment = async(id)=>{
     let net_price = 0
     pay_in_start_and_end.map(p=> net_price += p.net_price)
   
-  const result = level.find(l=> net_price < l.target_price)
+  const result = level.find(l=> net_price > l.target_price)
   //console.log(net_price)
   customerModel.findByIdAndUpdate({_id:cus._id},{ref_level_id:result._id}).then((cus_here)=>{
     return cus_here

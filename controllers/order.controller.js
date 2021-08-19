@@ -86,7 +86,7 @@ exports.holdOrder = (req, res) => {
 }
 
 exports.getOrderById = (req, res) => {
-  OrderModel.findById({_id:req.params.id})
+  OrderModel.findById({_id:req.params.id}).populate('ref_emp_id','fname lname')
   .then(order => {
     res.status(CODE_COMPLETE).json(order)
   })
