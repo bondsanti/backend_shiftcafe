@@ -34,12 +34,12 @@ exports.addProduct = (req, res) => {
       product = await uploadImage(files, product)
       await addLog(req.user._id, `add product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'เพิ่มสิ้นค้าเสร็จสมบูรณ์'
+        message: 'เพิ่มสินค้าเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'เพิ่มสิ้นค้าไม่สมบูรณ์',
+      message: 'เพิ่มสินค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -57,12 +57,12 @@ exports.updateProduct = (req, res) => {
       product = await uploadImage(files, product)
       await addLog(req.user._id, `update product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'อัพเดตสิ้นค้าเสร็จสมบูรณ์'
+        message: 'อัพเดตสินค้าเสร็จสมบูรณ์'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'อัพเดตสิ้นค้าไม่สมบูรณ์',
+      message: 'อัพเดตสินค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -90,11 +90,11 @@ exports.updateProduct2 = async (req, res) => {
       { status: req.body.status }
     )
     res.status(CODE_COMPLETE).json({
-      message: 'อัพเดตสิ้นค้าเสร็จสมบูรณ์'
+      message: 'อัพเดตสินค้าเสร็จสมบูรณ์'
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'อัพเดตสิ้นค้าไม่สมบูรณ์',
+      message: 'อัพเดตสินค้าไม่สมบูรณ์',
       error: e
     })
   }
@@ -109,12 +109,12 @@ exports.deleteProduct = (req, res) => {
       }
       await addLog(req.user._id, `delete product => ${product.product_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'ลบสิ้นค้าเสร็จสมบูรณ์'
+        message: 'ลบสินค้าเสร็จสมบูรณ์'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ลบสิ้นค้าไม่สมบูรณ์',
+        message: 'ลบสินค้าไม่สมบูรณ์',
         error: e
       })
     })

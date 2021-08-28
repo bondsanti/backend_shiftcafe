@@ -10,11 +10,18 @@ const { addPointByPayment } = require('./pointManage.controller')
 const { checkAndUpdateLevelMember2 } = require('./customer.controller')
 
 
+
 //const { addPointPayment } = require('./pointPayment.controller')
 
 exports.addPayment = async (req, res) => {
-  const setting = await SettingModel.find()
   const today = new Date()
+   const payment_for_invoice = await PaymentModel.find({
+    datetime: {
+      $gte: new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    }
+  })
+
+  const setting = await SettingModel.find()
   if (parseInt(req.body.receive_money) < parseInt(req.body.net_price)) {
     res.status(CODE_WARNING).json({
       message: 'ยอดเงินที่รับมาไม่พอจ่ายค่าสินค้า'
@@ -40,7 +47,22 @@ exports.addPayment = async (req, res) => {
     point: newPoint
   })
 
-  
+  const newInvoice = ()=>{
+    const length_invoice = payment_for_invoice.length + 1
+    let end_inv = ""
+    if(length_invoice < 10){
+      end_inv = "000"+length_invoice
+    }else if(length_invoice < 100){
+      end_inv = "00"+length_invoice
+    }else if(length_invoice < 1000){
+      end_inv = "0"+length_invoice
+    }else{
+      end_inv = length_invoice
+    }
+    return `${today.getFullYear() + 543}${(today.getMonth()+1) < 10 ? '0'+ (today.getMonth()+1) :(today.getMonth()+1)}${today.getDate()<10 ?'0'+today.getDate():today.getDate()}${end_inv}`
+  }
+
+  console.log(payment_for_invoice.length);
   
    let newPayment = {
       ref_order_id: req.body.ref_order_id === 'no' ? null :req.body.ref_order_id,
@@ -58,9 +80,7 @@ exports.addPayment = async (req, res) => {
       net_price: req.body.net_price,
       ref_point_pay_id: point._id,
       datetime:today,
-      invoice: `${today.getDate() < 10 ? '0' + today.getDate() : today.getDate() }${(today.getMonth()+1) < 10 ? '0'+ (today.getMonth()+1) :(today.getMonth()+1) }${today.getFullYear()}${Math.floor(
-        Math.random() * (999 - 100) + 100
-      )}${today.getMinutes() < 10 ?'0' + today.getMinutes():today.getMinutes()}`
+      invoice: newInvoice()
     }
   
 
@@ -70,12 +90,14 @@ exports.addPayment = async (req, res) => {
      await checkAndUpdateLevelMember2(req.body.ref_cus_id)
       // 2.add point customer 3.minus num_use at coupon model
       await addPointByPayment(req.body.ref_cus_id, newPoint, req.user._id,req.body.coupon_id)
+      let order_id = null
       if(req.body.ref_order_id === 'no'){
         const order_no = `${today.getFullYear()+543}${(today.getMonth()+1)<10?'0'+today.getMonth()+1 : today.getMonth()+1}${today.getDate() < 10 ? '0'+today.getDate():today.getDate() }${Math.floor(Math.random() * (999 - 100) + 100)}${today.getSeconds()}`
-        const order = await OrderModel.create({...req.body.new_order,order_no:order_no,datetime:today})
-        await PaymentModel.findByIdAndUpdate({_id:pay._id},{ref_order_id:order._id})
+        const order = await OrderModel.create({...req.body.new_order,order_no:order_no,datetime:today,ref_emp_id:req.user._id})
+        result = await PaymentModel.findByIdAndUpdate({_id:pay._id},{ref_order_id:order._id})
+        order_id = order._id
       }else{
-
+        //result = pay
         await OrderModel.findByIdAndUpdate(
           { _id: pay.ref_order_id },
           {
@@ -85,9 +107,11 @@ exports.addPayment = async (req, res) => {
           }
         )
       }
+     
       res.status(CODE_COMPLETE).json({
         message: 'ชำระเงินสำเร็จ',
-        data: pay
+        data: pay,
+        order_id : req.body.ref_order_id === 'no' ? order_id :pay.ref_order_id
       })
     })
     .catch(e => {
