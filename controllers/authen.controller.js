@@ -128,7 +128,7 @@ exports.requestOTP = (req, res) => {
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ส่ง OTP ที่ยังไม่เสร็จ',
+        message: 'ส่ง OTP ไม่สำเร็จ',
         error: e
       })
     })

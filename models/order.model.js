@@ -26,7 +26,8 @@ const orderSchema = new mongoose.Schema({
       name:String,
       qty: Number,
       topping:Array,
-      normal_price:Number
+      normal_price:Number,
+      detail:String
       
     }
   ],

@@ -80,7 +80,22 @@ exports.deleteCategory = (req,res)=>{
 }
 
 exports.allCategory = (req,res)=>{
-    CategoryModel.find().then(cate=>{
+    CategoryModel.find().populate('products','product_name').then(cate=>{
         res.status(CODE_COMPLETE).json(cate)
     })
+}
+
+exports.toppingCategory = (req,res)=>{
+  CategoryModel.findByIdAndUpdate({_id:req.params.id},{
+    topping:req.body.topping
+  }).then(()=>{
+    res.status(CODE_COMPLETE).json({
+      message: 'บันทึก ท็อปปิ้ง สำเร็จ'
+    })
+  }).catch((e)=>{
+    res.status(CODE_WARNING).json({
+      message: 'บันทึก ท็อปปิ้ง ไม่สำเร็จ',
+      error: e
+    })
+  })
 }

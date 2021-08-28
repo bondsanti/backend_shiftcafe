@@ -59,7 +59,7 @@ exports.deleteUnit = async(req,res)=>{
 }
 
 exports.allUnit = (req,res)=>{
-  UnitModel.find().then(unit=>{
+  UnitModel.find().populate('products','product_name').then(unit=>{
     res.status(CODE_COMPLETE).json(unit)
   })
 }
