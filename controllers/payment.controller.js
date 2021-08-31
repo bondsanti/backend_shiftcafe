@@ -62,7 +62,7 @@ exports.addPayment = async (req, res) => {
     return `${today.getFullYear() + 543}${(today.getMonth()+1) < 10 ? '0'+ (today.getMonth()+1) :(today.getMonth()+1)}${today.getDate()<10 ?'0'+today.getDate():today.getDate()}${end_inv}`
   }
 
-  console.log(payment_for_invoice.length);
+  //console.log(payment_for_invoice.length);
   
    let newPayment = {
       ref_order_id: req.body.ref_order_id === 'no' ? null :req.body.ref_order_id,

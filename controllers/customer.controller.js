@@ -4,34 +4,43 @@ const customerModel = require('./../models/customer.model')
 const PaymentModel = require('./../models/payment.model')
 const LevelMemberModel = require('./../models/levelMember.model')
 
-exports.addCustomer = (req, res) => {
+exports.addCustomer = async (req, res) => {
   const today = new Date()
-  customerModel
-    .create({
-      pname: req.body.pname,
-      fname: req.body.fname,
-      lname: req.body.lname,
-      birthday: req.body.birthday,
-      tel: req.body.tel,
-      password: req.body.tel,
-      email: req.body.email,
-      address: req.body.address,
-      ref_level_id: req.body.ref_level_id,
-      point: req.body.point,
-      member_no:`${today.getFullYear()+543}${(today.getMonth()+1) < 10 ? '0'+today.getMonth()+1 : today.getMonth()+1 }${today.getDate() < 10 ? '0'+today.getDate() : today.getDate() }${Math.floor(Math.random() * (9999 - 1000) + 1000)}`
-    })
-    .then(async cus => {
-      await addLog(req.user._id, `add customer => ${cus.fname}`)
-      res.status(CODE_COMPLETE).json({
-        message: 'เพิ่มลูกค้าเสร็จสมบูรณ์'
+  const checkTel = await customerModel.find({tel:req.body.tel})
+  if(checkTel.length === 0){
+
+    customerModel
+      .create({
+        pname: req.body.pname,
+        fname: req.body.fname,
+        lname: req.body.lname,
+        birthday: req.body.birthday,
+        tel: req.body.tel,
+        password: req.body.tel,
+        email: req.body.email,
+        address: req.body.address,
+        ref_level_id: req.body.ref_level_id,
+        point: req.body.point,
+        member_no:`${today.getFullYear()+543}${(today.getMonth()+1) < 10 ? '0'+today.getMonth()+1 : today.getMonth()+1 }${today.getDate() < 10 ? '0'+today.getDate() : today.getDate() }${Math.floor(Math.random() * (9999 - 1000) + 1000)}`
       })
-    })
-    .catch(e => {
-      res.status(CODE_WARNING).json({
-        message: 'เพิ่มลูกค้าไม่สมบูรณ์',
-        error: e
+      .then(async cus => {
+        await addLog(req.user._id, `add customer => ${cus.fname}`)
+        res.status(CODE_COMPLETE).json({
+          message: 'เพิ่มลูกค้าเสร็จสมบูรณ์'
+        })
       })
+      .catch(e => {
+        res.status(CODE_WARNING).json({
+          message: 'เพิ่มลูกค้าไม่สมบูรณ์',
+          error: e
+        })
+      })
+  }else{
+    res.status(CODE_WARNING).json({
+      message: 'เพิ่มลูกค้าไม่สมบูรณ์ มีเบอร์โทรศัพท์นี้อยู่ในระบบแล้ว',
+     
     })
+  }
 }
 
 exports.updateCustomer = (req, res) => {
@@ -161,9 +170,12 @@ const checkPayment = async(id)=>{
   
     let net_price = 0
     pay_in_start_and_end.map(p=> net_price += p.net_price)
-  
+
+    //เรียง target_price จากมากไปน้อย
+  level.sort((a,b)=> b.target_price - a.target_price)
   const result = level.find(l=> net_price > l.target_price)
-  //console.log(net_price)
+  // console.log(net_price)
+  // console.log(result)
   customerModel.findByIdAndUpdate({_id:cus._id},{ref_level_id:result._id}).then((cus_here)=>{
     return cus_here
   })

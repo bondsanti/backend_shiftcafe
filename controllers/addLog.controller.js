@@ -9,7 +9,7 @@ exports.addLog = async (emp_id, activity) => {
 }
 
 exports.allLog = (req, res) => {
-  LogModel.find().populate('emp_id','username').then(log=>{
+  LogModel.find().populate('emp_id','username fname lname').then(log=>{
     res.status(200).json(log)
   })
 }
