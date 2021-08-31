@@ -24,15 +24,12 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  topping: [
-    {
-      name: String,
-      price: Number,
-      status: { type: Boolean, default: true }
-    }
-  ],
   stock: String,
   status: {
+    type: Boolean,
+    default: true
+  },
+  discount: {
     type: Boolean,
     default: true
   }
