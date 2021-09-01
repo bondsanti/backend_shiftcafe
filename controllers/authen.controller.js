@@ -3,6 +3,7 @@ const CustomerModel = require('./../models/customer.model')
 const jwt = require('jsonwebtoken')
 const thaibulksmsApi = require('thaibulksms-api')
 const { CODE_COMPLETE, CODE_WARNING } = require('../instant')
+const { addLog } = require('./addLog.controller')
 
 exports.login = async (req, res) => {
   try {
@@ -18,7 +19,7 @@ exports.login = async (req, res) => {
               expiresIn: '15d'
             }
           )
-  
+          await addLog(emp._id, `เข้าสู่ระบบ`)
           res.cookie('token', token, { expiresIn: '15d' })
           res.status(200).json({
             token,
@@ -80,7 +81,9 @@ exports.login = async (req, res) => {
   }
 }
 
-exports.logout = (req, res) => {
+exports.logout =async (req, res) => {
+  await addLog(req.user._id, `ออกจากระบบ`)
+  req.user = null
   res.clearCookie('token')
   res.status(200).json({
     message: 'ออกจากระบบเรียบร้อยแล้ว'
@@ -123,7 +126,8 @@ const otp = thaibulksmsApi.otp(options)
 exports.requestOTP = (req, res) => {
   otp
     .request(req.body.tel)
-    .then(response => {
+    .then(async(response) => {
+     await addLog(req.user._id,`ร้องขอรหัส OTP ที่ส่งไปยังหมายเลขโทรศัพท์ ${req.body.tel}`)
       res.status(CODE_COMPLETE).json(response.data)
     })
     .catch(e => {
@@ -137,7 +141,8 @@ exports.requestOTP = (req, res) => {
 exports.verifyOTP = (req, res) => {
   otp
     .verify(req.body.verify, req.body.code)
-    .then(response => {
+    .then(async(response) => {
+     await addLog(req.user._id,`ได้สวมสิทธิ์เป็นพนักงาน id:${req.body.emp_spoof._id} ชื่อ-นามสกุล:${req.body.emp_spoof.fname+" "+req.body.emp_spoof.lname}`)
       res.status(CODE_COMPLETE).json(response)
       //console.log(response.data)
       //next()
