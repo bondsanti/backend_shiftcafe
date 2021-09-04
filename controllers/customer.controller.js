@@ -125,9 +125,13 @@ exports.getCustomerByTel = (req, res) => {
 }
 
 exports.checkAndUpdateLevelMember = async(req,res)=>{
-  
-  await checkPayment(req.params.id)
-  res.status(CODE_COMPLETE).json({message:"เช็คการปรับระดับสมาชิกสำเร็จ"})
+  //console.log(req.params.id);
+  if(req.params.id){
+    const custom = await checkPayment(req.params.id)
+     res.status(CODE_COMPLETE).json({message:"เช็คการปรับระดับสมาชิกสำเร็จ"})
+  }else{
+    res.status(CODE_ERROR).json({message:"ไม่พบรหัสของลูกค้า"})
+  }
  
 }
 
