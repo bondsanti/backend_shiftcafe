@@ -177,10 +177,13 @@ exports.deletePayment = (req, res) => {
 
 exports.allPayment = (req, res) => {
   PaymentModel.find()
-    .populate('ref_order_id', 'order_no')
+    .populate({
+      path: 'ref_order_id',model: 'Order',
+      populate: {path: 'list_product.ref_pro_id',model: 'Product'}
+    })
     .populate('ref_emp_id', 'username fname lname')
     .populate('ref_cus_id')
-    .populate('ref_bank_id', 'bank_name')
+    .populate('ref_bank_id')
     .populate('ref_point_pay_id', 'point')
     .then(payment => {
       res.status(CODE_COMPLETE).json(payment)

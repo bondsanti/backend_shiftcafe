@@ -11,6 +11,7 @@ exports.addCoupon = (req,res)=>{
         end:req.body.end,
         discount:req.body.discount,
         num_use:req.body.num_use,
+        detail:req.body.detail
     }).then(async coupon=>{
        await addLog(req.user._id,`add coupon CODE => ${coupon.codename}`)
        res.status(CODE_COMPLETE).json({
@@ -34,6 +35,7 @@ exports.updateCoupon = (req,res)=>{
         discount:req.body.discount,
         num_use:req.body.num_use,
         status:req.body.status,
+        detail:req.body.detail
     }).then(async coupon=>{
         await addLog(req.user._id,`update coupon CODE => ${coupon.codename}`)
         res.status(CODE_COMPLETE).json({

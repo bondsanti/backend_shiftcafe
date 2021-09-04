@@ -31,7 +31,8 @@ const couponSchema = new mongoose.Schema({
   status:{
     type:Number,
     default:0
-  }
+  },
+  detail:String
 })
 
 module.exports = mongoose.model('Coupon',couponSchema)
