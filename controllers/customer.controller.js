@@ -180,7 +180,7 @@ const checkPayment = async(id)=>{
   const result = level.find(l=> net_price > l.target_price)
   // console.log(net_price)
   // console.log(result)
-  customerModel.findByIdAndUpdate({_id:cus._id},{ref_level_id:result._id}).then((cus_here)=>{
+  customerModel.findByIdAndUpdate({_id:cus._id},{ref_level_id:result?result._id:null}).then((cus_here)=>{
     return cus_here
   })
   }else{
