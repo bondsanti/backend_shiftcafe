@@ -26,18 +26,18 @@ exports.addCustomer = async (req, res) => {
       .then(async cus => {
         await addLog(req.user._id, `add customer => ${cus.fname}`)
         res.status(CODE_COMPLETE).json({
-          message: 'เพิ่มลูกค้าเสร็จสมบูรณ์'
+          message: 'เพิ่มลูกค้าสำเร็จ'
         })
       })
       .catch(e => {
         res.status(CODE_WARNING).json({
-          message: 'เพิ่มลูกค้าไม่สมบูรณ์',
+          message: 'เพิ่มลูกค้าไม่สำเร็จ',
           error: e
         })
       })
   }else{
     res.status(CODE_WARNING).json({
-      message: 'เพิ่มลูกค้าไม่สมบูรณ์ มีเบอร์โทรศัพท์นี้อยู่ในระบบแล้ว',
+      message: 'เพิ่มลูกค้าไม่สำเร็จ มีเบอร์โทรศัพท์นี้อยู่ในระบบแล้ว',
      
     })
   }
@@ -63,12 +63,12 @@ exports.updateCustomer = (req, res) => {
     .then(async cus => {
       await addLog(req.user._id, `update customer => ${cus.fname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'อัพเดตลูกค้าเสร็จสมบูรณ์'
+        message: 'อัพเดตลูกค้าสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'อัพเดตลูกค้าไม่สมบูรณ์',
+        message: 'อัพเดตลูกค้าไม่สำเร็จ',
         error: e
       })
     })
@@ -80,12 +80,12 @@ exports.deleteCustomer = (req, res) => {
     .then(async cus => {
       await addLog(req.user._id, `delete customer => ${cus.fname}`)
       res.status(CODE_COMPLETE).json({
-        message: 'ลบลูกค้าเสร็จสมบูรณ์'
+        message: 'ลบลูกค้าสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ลบลูกค้าไม่สมบูรณ์',
+        message: 'ลบลูกค้าไม่สำเร็จ',
         error: e
       })
     })

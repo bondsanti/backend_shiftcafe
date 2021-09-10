@@ -107,11 +107,21 @@ exports.addPayment = async (req, res) => {
           }
         )
       }
+
+       const pay_current = await PaymentModel.findById(pay._id)
+        .populate({
+          path: 'ref_order_id',model: 'Order',
+          populate: {path: 'list_product.ref_pro_id',model: 'Product'}
+        })
+        .populate('ref_emp_id', 'username fname lname')
+        .populate('ref_cus_id')
+        .populate('ref_bank_id')
+        .populate('ref_point_pay_id', 'point')
      
       res.status(CODE_COMPLETE).json({
         message: 'ชำระเงินสำเร็จ',
-        data: pay,
-        order_id : req.body.ref_order_id === 'no' ? order_id :pay.ref_order_id
+        data: pay_current,
+        //order_id : req.body.ref_order_id === 'no' ? order_id :pay.ref_order_id
       })
     })
     .catch(e => {
@@ -164,12 +174,12 @@ exports.deletePayment = (req, res) => {
     .then(async pay => {
       await addLog(req.user._id, `delete payment id -> ${pay._id}`)
       res.status(CODE_COMPLETE).json({
-        message: 'ลบการชำระเงินเสร็จสมบูรณ์'
+        message: 'ลบการชำระเงินสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ลบการชำระเงินที่ยังไม่เสร็จสมบูรณ์',
+        message: 'ลบการชำระเงินที่ยังไม่สำเร็จ',
         error: e
       })
     })

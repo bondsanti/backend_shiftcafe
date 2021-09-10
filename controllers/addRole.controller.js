@@ -20,7 +20,7 @@ exports.addRole = (req, res) => {
     if (role) {
       await addLog(req.user._id, `add role ${role.position}`)
       res.status(CODE_COMPLETE).json({
-        massage: 'เพิ่มบทบาทเสร็จสมบูรณ์'
+        massage: 'เพิ่มบทบาทสำเร็จ'
       })
     }
   })
@@ -32,12 +32,12 @@ exports.updateRole = (req, res) => {
     .then(async role => {
       await addLog(req.user._id, `update role ${role.position}`)
       res.status(CODE_COMPLETE).json({
-        massage: 'อัปเดตบทบาทเสร็จสมบูรณ์'
+        massage: 'อัปเดตบทบาทสำเร็จ'
       })
     })
     .catch(err => {
       res.status(CODE_WARNING).json({
-        massage: 'อัปเดตบทบาทไม่สมบูรณ์',
+        massage: 'อัปเดตบทบาทไม่สำเร็จ',
         error: err
       })
     })
@@ -49,11 +49,11 @@ exports.deleteRole = async (req, res) => {
     const role = await RoleModel.findOneAndDelete({ _id: id })
     await addLog(req.user._id, `delete role ${role.position}`)
     res.status(CODE_COMPLETE).json({
-      message: `ลบบทบาทเสร็จสมบูรณ์`
+      message: `ลบบทบาทสำเร็จ`
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'ลบบทบาทไม่สมบูรณ์',
+      message: 'ลบบทบาทไม่สำเร็จ',
       error: e
     })
   }

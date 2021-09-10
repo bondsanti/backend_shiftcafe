@@ -17,12 +17,12 @@ exports.addWithdraw = (req, res) => {
         `add withdraw total money -> ${wd.total_money}`
       )
       res.status(CODE_COMPLETE).json({
-        message: 'เพิ่มการถอนเสร็จสมบูรณ์'
+        message: 'สำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'เพิ่มการถอนไม่สมบูรณ์',
+        message: 'ไม่สำเร็จ',
         error: e
       })
     })
@@ -45,12 +45,12 @@ exports.updateWithdraw = (req, res) => {
         `update withdraw money ${wd.total_money} -> ${req.body.total_money} `
       )
       res.status(CODE_COMPLETE).json({
-        message: 'อัพเดทการถอนเสร็จสมบูรณ์'
+        message: 'แก้ไขสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'อัพเดทการถอนไม่สมบูรณ์',
+        message: 'แก้ไขไม่สำเร็จ',
         error: e
       })
     })
@@ -61,12 +61,12 @@ exports.deleteWithdraw = (req, res) => {
     .then(async wd => {
       await addLog(req.user._id, `delete withdraw money id => ${wd._id} `)
       res.status(CODE_COMPLETE).json({
-        message: 'ลบการถอนเสร็จสมบูรณ์'
+        message: 'ลบสำเร็จ'
       })
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ลบการถอนไม่สมบูรณ์',
+        message: 'ลบไม่สำเร็จ',
         error: e
       })
     })

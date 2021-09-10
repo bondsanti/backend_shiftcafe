@@ -34,12 +34,12 @@ exports.addLevelMember = (req, res) => {
         level = await uploadImage(files, level)
         await addLog(req.user._id, `add level member -> ${level.level_name}`)
         res.status(CODE_COMPLETE).json({
-          message: 'เพิ่มระดับสมาชิกเสร็จสมบูรณ์'
+          message: 'เพิ่มระดับสมาชิกสำเร็จ'
         })
       })
     } catch (e) {
       res.status(CODE_WARNING).json({
-        message: 'เพิ่มระดับสมาชิกไม่สมบูรณ์',
+        message: 'เพิ่มระดับสมาชิกไม่สำเร็จ',
         error: e
       })
     }
@@ -56,12 +56,12 @@ exports.updateLevelMember = (req, res) => {
       level = await uploadImage(files, level)
       await addLog(req.user._id, `update level member -> ${level.level_name}`)
       res.status(CODE_COMPLETE).json({
-        message: 'อัปเดตระดับสมาชิกเสร็จสมบูรณ์'
+        message: 'อัปเดตระดับสมาชิกสำเร็จ'
       })
     })
   } catch (e) {
     res.status(CODE_WARNING).json({
-      message: 'อัพเดทระดับสมาชิกไม่สมบูรณ์',
+      message: 'อัพเดทระดับสมาชิกไม่สำเร็จ',
       error: e
     })
   }
@@ -73,12 +73,12 @@ exports.deleteLevelMember = (req, res) => {
       .then(level => {
         addLog(req.user._id, `delete level member => ${level.level_name}`)
         res.status(CODE_COMPLETE).json({
-          message: 'ลบระดับสมาชิกเสร็จสมบูรณ์'
+          message: 'ลบระดับสมาชิกสำเร็จ'
         })
       })
       .catch(e => {
         res.status(CODE_WARNING).json({
-          message: 'ลบระดับสมาชิกไม่สมบูรณ์',
+          message: 'ลบระดับสมาชิกไม่สำเร็จ',
           error: e
         })
       })

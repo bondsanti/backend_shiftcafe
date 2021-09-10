@@ -16,14 +16,14 @@ exports.login = async (req, res) => {
             { _id: emp._id, role: emp.ref_id_role },
             process.env.JWT_SECRET,
             {
-              expiresIn: '15d'
+              expiresIn: '1d'
             }
           )
           await addLog(emp._id, `เข้าสู่ระบบ`)
-          res.cookie('token', token, { expiresIn: '15d' })
+          res.cookie('token', token, { expiresIn: '1d' })
           res.status(200).json({
             token,
-            message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
+            message: 'เข้าสู่ระบบสำเร็จ'
           })
         } else {
           res.status(201).json({
@@ -39,10 +39,10 @@ exports.login = async (req, res) => {
           }
         )
 
-        res.cookie('token', token, { expiresIn: '15d' })
+        res.cookie('token', token, { expiresIn: '1d' })
         res.status(200).json({
           token,
-          message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
+          message: 'เข้าสู่ระบบสำเร็จ'
         })
       }
     } else {
@@ -54,14 +54,14 @@ exports.login = async (req, res) => {
               { _id: cus._id, role: 'member' },
               process.env.JWT_SECRET,
               {
-                expiresIn: '15d'
+                expiresIn: '1d'
               }
             )
 
-            res.cookie('token', token, { expiresIn: '15d' })
+            res.cookie('token', token, { expiresIn: '1d' })
             res.status(200).json({
               token,
-              message: 'เข้าสู่ระบบเสร็จสมบูรณ์'
+              message: 'เข้าสู่ระบบสำเร็จ'
             })
           } else {
             res.status(201).json({
@@ -149,7 +149,7 @@ exports.verifyOTP = (req, res) => {
     })
     .catch(e => {
       res.status(CODE_WARNING).json({
-        message: 'ตรวจสอบ OTP ไม่สมบูรณ์',
+        message: 'ตรวจสอบ OTP ไม่สำเร็จ',
         error: e
       })
     })
