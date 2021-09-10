@@ -15,11 +15,11 @@ exports.addCoupon = (req,res)=>{
     }).then(async coupon=>{
        await addLog(req.user._id,`add coupon CODE => ${coupon.codename}`)
        res.status(CODE_COMPLETE).json({
-           message:'เพิ่มคูปองเสร็จสมบูรณ์'
+           message:'เพิ่มคูปองสำเร็จ'
        })
     }).catch(e=>{
         res.status(CODE_WARNING).json({
-            message:'เพิ่มคูปองไม่สมบูรณ์',
+            message:'เพิ่มคูปองไม่สำเร็จ',
             error:e
         })
     })
@@ -39,11 +39,11 @@ exports.updateCoupon = (req,res)=>{
     }).then(async coupon=>{
         await addLog(req.user._id,`update coupon CODE => ${coupon.codename}`)
         res.status(CODE_COMPLETE).json({
-            message:'อัพเดตคูปองเสร็จสมบูรณ์'
+            message:'อัพเดตคูปองสำเร็จ'
         })
      }).catch(e=>{
          res.status(CODE_WARNING).json({
-             message:'อัพเดตคูปองไม่สมบูรณ์',
+             message:'อัพเดตคูปองไม่สำเร็จ',
              error:e
          })
      })
@@ -54,11 +54,11 @@ exports.deleteCoupon = (req,res)=>{
     .then(async coupon=>{
         await addLog(req.user._id,`delete coupon CODE => ${coupon.codename}`)
         res.status(CODE_COMPLETE).json({
-            message:'ลบคูปองเสร็จสมบูรณ์'
+            message:'ลบคูปองสำเร็จ'
         })
      }).catch(e=>{
          res.status(CODE_WARNING).json({
-             message:'ลบคูปองไม่สมบูรณ์',
+             message:'ลบคูปองไม่สำเร็จ',
              error:e
          })
      })

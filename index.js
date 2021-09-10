@@ -6,6 +6,7 @@ const cors = require('cors')
 const bcrypt = require('bcrypt')
 //const path = require('path')
 const cookieParser = require('cookie-parser')
+const helmet = require("helmet");
 // const socketio = require('socket.io')
 const app = express()
 //app.use(morgan('combined'))
@@ -33,6 +34,7 @@ mongoose
     process.exit(1)
   })
 
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.set('view engine', 'ejs')
