@@ -19,6 +19,7 @@ exports.addPointManage = async (req, res) => {
         point: req.body.point,
         status: req.body.status,
         point_by: "system",
+        datetime:Date.now()
       });
       addLog(
         req.user._id,
@@ -48,6 +49,7 @@ exports.addPointManage = async (req, res) => {
           point: req.body.point,
           status: req.body.status,
           point_by: "system",
+          datetime:Date.now()
         });
         addLog(
           req.user._id,
@@ -100,6 +102,7 @@ exports.addPointByPayment = async (cus_id, new_point, emp_id,coupon_id) => {
     point: new_point,
     status: "plus",
     point_by: "buy",
+    datetime:Date.now()
   });
   addLog(
     emp_id,
